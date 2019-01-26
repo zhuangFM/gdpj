@@ -1,0 +1,18 @@
+server:
+  port: 3001
+spring:
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/eureka/
+
+zuul:
+  add-host-header: true
+  sensitive-headers:
+
+
+
+

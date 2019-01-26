@@ -1,0 +1,25 @@
+server:
+  port: 2004
+spring:
+  datasource:
+    shoppingCart:
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/gdpj?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=true
+      username: root
+      password: 123456
+      initial-size: 2
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+      filters: stat,wall
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  application:
+    name: shopping-cart-module
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1001/eureka/
+
+

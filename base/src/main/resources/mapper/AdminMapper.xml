@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="indi.fimi.gdpj.base.repository.AdminMapper">
+
+    <resultMap id="admin-user-query" type="indi.fimi.gdpj.base.domain.User">
+        <id property="uid" column="uid"/>
+        <result property="uname" column="uname"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <resultMap id="admin-auth-rule-query" type="indi.fimi.gdpj.base.domain.AuthRule">
+        <id property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="order" column="order"/>
+        <result property="ceateTime" column="create_time"/>
+        <result property="creator" column="creator"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifier" column="modifier"/>
+        <result property="type" column="type"/>
+        <result property="parent" column="parent"/>
+        <result property="code" column="code"/>
+    </resultMap>
+
+    <resultMap id="admin-user-auth-query" type="indi.fimi.gdpj.base.domain.UserAuth">
+        <id property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="authId" column="auth_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creator" column="creator"/>
+    </resultMap>
+
+    <resultMap id="system-log-query" type="indi.fimi.gdpj.base.domain.SystemLog">
+        <id property="id" column="id"/>
+        <result property="level" column="level"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creator" column="creator"/>
+    </resultMap>
+
+
+    <select id="getAllUserList" resultMap="admin-user-query">
+        SELECT * FROM gdpj_user
+    </select>
+
+    <select id="getAllSystemLogList" resultMap="system-log-query">
+        SELECT * FROM system_log
+    </select>
+    
+    <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO gdpj_user (`uname`,`password`,`create_time`,`type`,`type_name`) VALUES (#{uname},#{password},#{createTime},#{type},#{typeName})
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/api-gateway/api-gateway.iml" filepath="$PROJECT_DIR$/api-gateway/api-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-client1/eureka-client1.iml" filepath="$PROJECT_DIR$/eureka-client1/eureka-client1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/foodstuff/foodstuff.iml" filepath="$PROJECT_DIR$/foodstuff/foodstuff.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gdpj.iml" filepath="$PROJECT_DIR$/gdpj.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shopping-cart/shopping-cart.iml" filepath="$PROJECT_DIR$/shopping-cart/shopping-cart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/transaction/transaction.iml" filepath="$PROJECT_DIR$/transaction/transaction.iml" />
+    </modules>
+  </component>
+</project>

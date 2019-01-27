@@ -39,18 +39,53 @@
         <result property="creator" column="creator"/>
     </resultMap>
 
+    <!-- system_log table -->
+    <select id="getAllSystemLogList" resultMap="system-log-query">
+        SELECT * FROM system_log
+    </select>
 
+    <!-- gdpj_user table -->
     <select id="getAllUserList" resultMap="admin-user-query">
         SELECT * FROM gdpj_user
     </select>
 
-    <select id="getAllSystemLogList" resultMap="system-log-query">
-        SELECT * FROM system_log
+    <select id="getUserByUname" resultMap="admin-user-query">
+        SELECT * FROM gdpj_user WHERE `uname`=#{uname}
     </select>
-    
+
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO gdpj_user (`uname`,`password`,`create_time`,`type`,`type_name`) VALUES (#{uname},#{password},#{createTime},#{type},#{typeName})
     </insert>
+
+    <update id="modifyUserByUid">
+        UPDATE gdpj_user SET `uname`=#{uname},`password`=#{uname},`create_time`=#{createTime},`type`=#{type},`type_name`=#{typeName} WHERE `id`=#{id}
+    </update>
+
+    <delete id="deleteUserById">
+        DELETE * FROM gdpj_user WHERE `id`=#{id}
+    </delete>
+
+    <!-- auth_rule table -->
+    <insert id="addAuthRule" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO auth_rule (`parent_id`,`name`,`order`,`create_time`,`creator`,`modify_time`,`modifier`,`type`,`parent`,`code`) VALUES (#{parentId},#{name},#{order},#{createTime},#{createor},#{modifyTime},#{modifier},#{type},#{parent},#{code})
+    </insert>
+
+    <update id="modifyAuthRuleById">
+        UPDATE auth_rule SET `parent_id`=#{parentId},`name`=#{name},`order`=#{order},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier},`type`=#{type},`parent`=#{parent},`code`=#{code} WHERE `id`=#{id}
+    </update>
+
+    <delete id="deleteAuthRuleById">
+        DELETE * FROM auth_rule WHERE `id`=#{id}
+    </delete>
+
+    <!-- user_auth table -->
+    <insert id="addUserAuth" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO user_auth (`uid`,`auth_id`,`create_time`,`creator`) VALUES (#{uid},#{authId},#{createTime},#{creator})
+    </insert>
+
+    <delete id="deleteUserAuthById">
+        DELETE * FROM user_auth WHERE `id`=#{id}
+    </delete>
 
 
 </mapper>

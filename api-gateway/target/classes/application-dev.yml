@@ -9,4 +9,10 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:1001/eureka/
 
+zuul:
+  add-host-header: true
+  sensitive-headers:
+
+
+
 

@@ -1,10 +1,14 @@
 package indi.fimi.gdpj.base.domain;
 
+import java.util.Date;
+
 public class User {
     private Integer uid;
     private String uname;
-    private String createTime;
-
+    private String password;
+    private Date createTime;
+    private Integer type;
+    private String typeName;
 
     public Integer getUid() {
         return uid;
@@ -22,21 +26,47 @@ public class User {
         this.uname = uname;
     }
 
-    public String getCreateTime() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
     @Override
     public String toString() {
         return "User{" +
                 "uid=" + uid +
                 ", uname='" + uname + '\'' +
-                ", createTime='" + createTime + '\'' +
+                ", password='" + password + '\'' +
+                ", createTime=" + createTime +
+                ", type=" + type +
+                ", typeName='" + typeName + '\'' +
                 '}';
     }
 }

@@ -13,23 +13,47 @@ import java.util.List;
 
 @Mapper
 public interface AdminMapper {
+    /**
+     * system_log table
+     */
+    List<SystemLog> getAllSystemLogList();
 
+    /**
+     * gdpj_user table
+     */
     List<User> getAllUserList();
 
+    void addUser(User user);
+
+    User getUserByUname(@Param("uname") String uname);
+
+    void modifyUserByUid(User user);
+
+    void deleteUserById(@Param("id") Integer id);
+
+    /**
+     * auth_rule table
+     */
     @ResultMap("admin-auth-rule-query")
     @Select("SELECT * FROM auth_rule")
     List<AuthRule> getAllAuthRuleList();
 
+    void addAuthRule(AuthRule authRule);
+
+    void modifyAuthRuleById(AuthRule authRule);
+
+    void deleteAuthRuleById(@Param("id") Integer id);
+
+    /**
+     * user_auth table
+     */
     @ResultMap("admin-user-auth-query")
     @Select("SELECT * FROM user_auth WHERE uid=#{uid} ")
     List<UserAuth> getUserAuthListByUid(@Param("uid") Integer uid);
 
-    List<SystemLog> getAllSystemLogList();
+    void addUserAuth(UserAuth userAuth);
 
-    void addUser(User user);
-
-
-
+    void deleteUserAuthById(@Param("id") Integer id);
 
 
 }

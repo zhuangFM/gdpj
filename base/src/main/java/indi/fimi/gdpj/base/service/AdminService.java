@@ -19,6 +19,8 @@ public interface AdminService {
 
     User getUserByUname(String uname);
 
+    User getUserByUid(Integer id);
+
     void modifyUserByUid(User user);
 
     void deleteUserById(Integer id);

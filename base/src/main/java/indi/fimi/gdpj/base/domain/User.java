@@ -3,19 +3,19 @@ package indi.fimi.gdpj.base.domain;
 import java.util.Date;
 
 public class User {
-    private Integer uid;
+    private Integer id;
     private String uname;
     private String password;
     private Date createTime;
     private Integer type;
     private String typeName;
 
-    public Integer getUid() {
-        return uid;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUname() {
@@ -61,7 +61,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "uid=" + uid +
+                "id=" + id +
                 ", uname='" + uname + '\'' +
                 ", password='" + password + '\'' +
                 ", createTime=" + createTime +

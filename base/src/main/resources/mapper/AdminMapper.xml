@@ -6,7 +6,10 @@
     <resultMap id="admin-user-query" type="indi.fimi.gdpj.base.domain.User">
         <id property="uid" column="uid"/>
         <result property="uname" column="uname"/>
+        <result property="password" column="password"/>
         <result property="createTime" column="create_time"/>
+        <result property="type" column="type"/>
+        <result property="typeName" column="type_name"/>
     </resultMap>
 
     <resultMap id="admin-auth-rule-query" type="indi.fimi.gdpj.base.domain.AuthRule">
@@ -51,6 +54,10 @@
 
     <select id="getUserByUname" resultMap="admin-user-query">
         SELECT * FROM gdpj_user WHERE `uname`=#{uname}
+    </select>
+
+    <select id="getUserByUid" resultMap="admin-user-query">
+        SELECT * FROM gdpj_user WHERE `id`=#{id}
     </select>
 
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">

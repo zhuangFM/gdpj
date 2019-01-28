@@ -28,6 +28,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public User getUserByUid(Integer id) {
+        return adminMapper.getUserByUid(id);
+    }
+
+    @Override
     public void addUser(User user) {
         adminMapper.addUser(user);
     }

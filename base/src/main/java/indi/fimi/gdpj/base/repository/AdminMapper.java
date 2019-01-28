@@ -27,6 +27,8 @@ public interface AdminMapper {
 
     User getUserByUname(@Param("uname") String uname);
 
+    User getUserByUid(@Param("id") Integer id);
+
     void modifyUserByUid(User user);
 
     void deleteUserById(@Param("id") Integer id);

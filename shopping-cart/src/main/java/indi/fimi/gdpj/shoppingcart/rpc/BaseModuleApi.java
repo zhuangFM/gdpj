@@ -8,6 +8,7 @@ import java.util.Map;
 
 @FeignClient("base-module")
 public interface BaseModuleApi {
+
     @GetMapping("/get_user")
     Map<String,Object> getUserInfoByUid(@RequestParam(value = "id", defaultValue = "1") Integer id);
 }

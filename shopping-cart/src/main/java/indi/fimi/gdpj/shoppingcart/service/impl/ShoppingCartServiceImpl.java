@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("shoppingCartService")
-public class ShoppingCartServiceImpl implements ShoppingCartService{
+public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
@@ -20,8 +20,33 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     private BaseModuleApi baseModuleApi;
 
     @Override
-    public List<ShoppingCartDetail> getAllShoppingCartDetailList() {
-        return shoppingCartMapper.getAllShoppingCartDetailList();
+    public void addShoppingCartDetail(ShoppingCartDetail shoppingCartDetail) {
+        shoppingCartMapper.addShoppingCartDetail(shoppingCartDetail);
+    }
+
+    @Override
+    public void modifyShoppingCartDetailById(ShoppingCartDetail shoppingCartDetail) {
+        shoppingCartMapper.modifyShoppingCartDetailById(shoppingCartDetail);
+    }
+
+    @Override
+    public ShoppingCartDetail getShoppingCartDetailById(Integer id) {
+        return shoppingCartMapper.getShoppingCartDetailById(id);
+    }
+
+    @Override
+    public List<ShoppingCartDetail> getAllShoppingCartDetailListByUid(Integer uid) {
+        return shoppingCartMapper.getAllShoppingCartDetailListByUid(uid);
+    }
+
+    @Override
+    public void deleteShoppingCartDetailById(Integer id) {
+        shoppingCartMapper.deleteShoppingCartDetailById(id);
+    }
+
+    @Override
+    public void deleteAllShoppingCartDetailsByUid(Integer uid) {
+        shoppingCartMapper.deleteAllShoppingCartDetailsByUid(uid);
     }
 
     @Override

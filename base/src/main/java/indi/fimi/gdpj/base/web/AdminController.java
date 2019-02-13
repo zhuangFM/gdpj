@@ -2,6 +2,7 @@ package indi.fimi.gdpj.base.web;
 
 
 import com.google.common.collect.Maps;
+import indi.fimi.gdpj.base.consts.ConfigConst;
 import indi.fimi.gdpj.base.domain.User;
 import indi.fimi.gdpj.base.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
@@ -39,11 +42,14 @@ public class AdminController {
 
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Map<String, Object> checkLogin(User user) {
+    public Map<String, Object> checkLogin(User user, HttpServletRequest request) {
         Map<String, Object> json = Maps.newHashMap();
         User checkUser = adminService.getUserByUname(user.getUname());
         if (null != checkUser && checkUser.getPassword().equals(user.getPassword())) {
+            HttpSession session = request.getSession();
+            session.setAttribute(ConfigConst.SESSION_USER,user);
             json.put("code",1);
+            json.put("user",user);
             json.put("msg","login successfully!");
         }
         else if(null == checkUser){

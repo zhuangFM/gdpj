@@ -9,5 +9,22 @@ public interface FoodstuffService {
     
     List<Foodstuff> getAllFoodstuffList();
 
+    Foodstuff getFoodstuffById(Integer id);
+
+    void addFoodstuff(Foodstuff foodstuff);
+
+    void modifyFoodstuffById(Foodstuff foodstuff);
+
+    void deleteFoodstuffById(Integer id);
+
     List<FoodstuffKind> getAllFoodstuffKindList();
+
+    FoodstuffKind getFoodstuffKindById(Integer id);
+
+    void addFoodstuffKind(FoodstuffKind foodstuffKind);
+
+    void modifyFoodstuffKindById(FoodstuffKind foodstuffKind);
+
+    void deleteFoodstuffKindById(Integer id);
+
 }

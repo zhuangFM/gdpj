@@ -2,10 +2,22 @@ package indi.fimi.gdpj.shoppingcart.repository;
 
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface ShoppingCartMapper {
-    List<ShoppingCartDetail> getAllShoppingCartDetailList();
+    void addShoppingCartDetail(ShoppingCartDetail shoppingCartDetail);
+
+    void modifyShoppingCartDetailById(ShoppingCartDetail shoppingCartDetail);
+
+    ShoppingCartDetail getShoppingCartDetailById(@Param("id") Integer id);
+
+    List<ShoppingCartDetail> getAllShoppingCartDetailListByUid(@Param("uid") Integer uid);
+
+    void deleteShoppingCartDetailById(@Param("id")Integer id);
+
+    void deleteAllShoppingCartDetailsByUid(@Param("uid") Integer uid);
+
 }

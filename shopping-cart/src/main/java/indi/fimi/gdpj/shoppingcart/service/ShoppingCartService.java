@@ -7,7 +7,17 @@ import java.util.List;
 import java.util.Map;
 
 public interface ShoppingCartService {
-    List<ShoppingCartDetail> getAllShoppingCartDetailList();
+    void addShoppingCartDetail(ShoppingCartDetail shoppingCartDetail);
+
+    void modifyShoppingCartDetailById(ShoppingCartDetail shoppingCartDetail);
+
+    ShoppingCartDetail getShoppingCartDetailById(Integer id);
+
+    List<ShoppingCartDetail> getAllShoppingCartDetailListByUid(Integer uid);
+
+    void deleteShoppingCartDetailById(Integer id);
+
+    void deleteAllShoppingCartDetailsByUid(Integer uid);
 
     Map<String,Object> getUserInfoByUid(Integer id);
 }

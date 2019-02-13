@@ -10,9 +10,28 @@
         <result property="amount" column="amount"/>
     </resultMap>
 
-    <select id="getAllShoppingCartDetailList" resultMap="shopping-cart-detail-query">
-        SELECT * FROM shopping_cart_detail
+    <insert id="addShoppingCartDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO shopping_cart_detail (`uid`,`foodstuff_id`,`amount`) VALUES (#{uid},#{foodstuffId},#{amount})
+    </insert>
+
+    <update id="modifyShoppingCartDetailById">
+        UPDATE shopping_cart_detail SET uid=#{uid},foodstuff_id=#{foodstuffId},amount=#{amount} WHERE id=#{id}
+    </update>
+
+    <select id="getShoppingCartDetailById" resultMap="shopping-cart-detail-query">
+        SELECT * FROM shopping_cart_detail WHERE id=#{id}
     </select>
 
+    <select id="getAllShoppingCartDetailListByUid" resultMap="shopping-cart-detail-query">
+        SELECT * FROM shopping_cart_detail WHERE uid=#{uid}
+    </select>
+    
+    <delete id="deleteShoppingCartDetailById">
+        DELETE * FROM shopping_cart_detail WHERE id=#{id}
+    </delete>
 
+    <delete id="deleteAllShoppingCartDetailsByUid">
+        DELETE * FROM shopping_cart_detail WHERE uid=#{uid}
+    </delete>
+    
 </mapper>

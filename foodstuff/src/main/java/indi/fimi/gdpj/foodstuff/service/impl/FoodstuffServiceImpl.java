@@ -22,7 +22,47 @@ public class FoodstuffServiceImpl implements FoodstuffService {
     }
 
     @Override
+    public Foodstuff getFoodstuffById(Integer id) {
+        return foodstuffMapper.getFoodstuffById(id);
+    }
+
+    @Override
+    public void addFoodstuff(Foodstuff foodstuff) {
+        foodstuffMapper.addFoodstuff(foodstuff);
+    }
+
+    @Override
+    public void modifyFoodstuffById(Foodstuff foodstuff) {
+        foodstuffMapper.modifyFoodstuffById(foodstuff);
+    }
+
+    @Override
+    public void deleteFoodstuffById(Integer id) {
+        foodstuffMapper.deleteFoodstuffById(id);
+    }
+
+    @Override
     public List<FoodstuffKind> getAllFoodstuffKindList() {
         return foodstuffMapper.getAllFoodstuffKindList();
+    }
+
+    @Override
+    public FoodstuffKind getFoodstuffKindById(Integer id) {
+        return foodstuffMapper.getFoodstuffKindById(id);
+    }
+
+    @Override
+    public void addFoodstuffKind(FoodstuffKind foodstuffKind) {
+        foodstuffMapper.addFoodstuffKind(foodstuffKind);
+    }
+
+    @Override
+    public void modifyFoodstuffKindById(FoodstuffKind foodstuffKind) {
+        foodstuffMapper.modifyFoodstuffKindById(foodstuffKind);
+    }
+
+    @Override
+    public void deleteFoodstuffKindById(Integer id) {
+        foodstuffMapper.deleteFoodstuffKindById(id);
     }
 }

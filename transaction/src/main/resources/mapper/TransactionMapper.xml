@@ -28,15 +28,79 @@
         <result property="creator" column="creator"/>
     </resultMap>
 
+    <insert id="addTransactionOrder" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        INSERT INTO transaction_order (`total_money`,`buyer_id`,`create_time`,`creator`,`modify_time`,`modifier`,`status`) VALUES (#{totalMoney},#{buyerId},#{createTime},#{creator},#{modifyTime},#{modifier},#{status})
+    </insert>
+
+    <update id="modifyTransactionOrder">
+        UPDATE transaction_order SET total_money=#{totalMoney},buyer_id=#{buyerId},create_time=#{createTime},creator=#{creator},modify_time=#{modifyTime},modifier=#{modifier},status=#{status} WHERE id=#{id}
+    </update>
+
+    <select id="getTransactionOrderById" resultMap="transaction-order-query">
+        SELECT * FROM transaction_order WHERE id=#{id}
+    </select>
+
+    <select id="getTransactionOrdersByBuyerId" resultMap="transaction-order-query">
+        SELECT * FROM transaction_order WHERE buyer_id=#{buyerId}
+    </select>
+
     <select id="getAllTransactionOrderList" resultMap="transaction-order-query">
         SELECT * FROM transaction_order
     </select>
 
+    <delete id="deleteTransactionOrderById">
+        DELETE * FROM transaction_order WHERE id=#{id}
+    </delete>
+
+    <insert id="addTransactionOrderDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO transaction_order_detail (`transaction_order_id`,`foodstuff_id`,`amount`) VALUES (#{transactionOrderId},#{foodstuffId},#{amount})
+    </insert>
+
+    <update id="modifyTransactionOrderDetail">
+        UPDATE transaction_order_detail SET transaction_order_id=#{transactionOrderId},foodstuff_id=#{foodstuffId},amount=#{amount} WHERE id=#{id}
+    </update>
+
+    <select id="getTransactionOrderDetailById" resultMap="transaction-order-detail-query">
+        SELECT * FROM transaction_order_detail WHERE id=#{id}
+    </select>
+    
     <select id="getAllTransactionOrderDetailList" resultMap="transaction-order-detail-query">
         SELECT * FROM transaction_order_detail
+    </select>
+
+    <select id="getTransactionOrderDetailsByTOId" resultMap="transaction-order-detail-query">
+        SELECT * FROM transaction_order_detail WHERE transaction_order_id=#{toid}
+    </select>
+
+    <delete id="deleteTransactionOrderDetailById">
+        DELETE * FROM transaction_order_detail WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteTransactionOrderDetailsByTOId">
+        DELETE * FROM transaction_order_detail WHERE transaction_order_id=#{toid}
+    </delete>
+
+    <insert id="addPaymentRecord" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        INSERT INTO payment_record (`transaction_order_id`,`create_time`,`creator`) VALUES (#{transactionOrderId},#{createTime},#{creator})
+    </insert>
+
+    <update id="modifyPaymentRecord">
+        UPDATE payment_record SET transaction_order_id=#{transactionOrderId},create_time=#{createTime},creator=#{creator} WHERE id=#{id}
+    </update>
+
+    <select id="getPaymentRecordById" resultMap="payment-record-query">
+        SELECT * FROM payment_record WHERE id=#{id}
+    </select>
+
+    <select id="getPaymentRecordByTOId" resultMap="payment-record-query">
+        SELECT * FROM payment_record WHERE transaction_order_id=#{toid}
     </select>
 
     <select id="getAllPaymentList" resultMap="payment-record-query">
         SELECT * FROM payment_record
     </select>
+
+    <delete id="deletePaymentRecordById">
+        DELETE * FROM payment_record WHERE id=#{id}
+    </delete>
 </mapper>

@@ -16,6 +16,7 @@ public class Foodstuff {
     private String unit;
     private Integer isDiscount;
     private Integer inventory;
+    private String imagePath;
 
     public Integer getId() {
         return id;
@@ -121,6 +122,14 @@ public class Foodstuff {
         this.inventory = inventory;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public String toString() {
         return "Foodstuff{" +
@@ -137,6 +146,7 @@ public class Foodstuff {
                 ", unit='" + unit + '\'' +
                 ", isDiscount=" + isDiscount +
                 ", inventory=" + inventory +
+                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 }

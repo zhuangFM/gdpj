@@ -5,6 +5,8 @@ import com.google.common.collect.Maps;
 import indi.fimi.gdpj.foodstuff.domain.Foodstuff;
 import indi.fimi.gdpj.foodstuff.domain.FoodstuffKind;
 import indi.fimi.gdpj.foodstuff.service.FoodstuffService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,8 @@ public class FoodstuffController {
 
     @Autowired
     private FoodstuffService foodstuffService;
+
+    private static Logger log = LoggerFactory.getLogger(FoodstuffController.class);
 
     @RequestMapping(value = "/test")
     public void test() {
@@ -47,6 +51,7 @@ public class FoodstuffController {
     @ResponseBody
     @RequestMapping(value = "/get_all_foodstuff")
     public Map<String, Object> getAllFoodstuffList() {
+        log.info("Access the api /get_all_foodstuff");
         Map<String, Object> json = Maps.newHashMap();
         List<Foodstuff> foodstuffList = foodstuffService.getAllFoodstuffList();
         json.put("foodstuffList", foodstuffList);

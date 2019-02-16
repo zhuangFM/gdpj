@@ -17,6 +17,7 @@
         <result property="modifier" column="modifier"/>
         <result property="isDiscount" column="is_discount"/>
         <result property="inventory" column="inventory"/>
+        <result property="imagePath" column="image_path"/>
     </resultMap>
 
     <resultMap id="foodstuff-kind-query" type="indi.fimi.gdpj.foodstuff.domain.FoodstuffKind">
@@ -30,11 +31,11 @@
     </resultMap>
 
     <insert id="addFoodstuff" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO foodstuff (`name`,`desc`,`typeid`,`create_time`,`creator`,`modify_time`,`modifier`,`origin`,`price`,`unit`,`is_discount`,`inventory`) VALUES (#{name},#{desc},#{typeid},#{createTime},#{creator},#{modifyTime},#{modifier},#{origin},#{price},#{unit},#{isDiscount},#{inventory})
+        INSERT INTO foodstuff (`name`,`desc`,`typeid`,`create_time`,`creator`,`modify_time`,`modifier`,`origin`,`price`,`unit`,`is_discount`,`inventory`,`image_path`) VALUES (#{name},#{desc},#{typeid},#{createTime},#{creator},#{modifyTime},#{modifier},#{origin},#{price},#{unit},#{isDiscount},#{inventory},#{imagePath})
     </insert>
 
     <update id="modifyFoodstuffById">
-        UPDATE foodstuff SET name=#{name},desc=#{desc},typeid=#{typeid},create_time=#{createTime},creator=#{creator},modify_time=#{modifyTime},modifier=#{modifier},origin=#{origin},price=#{price},unit=#{unit},is_discount=#{isDiscount},inventory=#{inventory} WHERE id=#{id}
+        UPDATE foodstuff SET name=#{name},desc=#{desc},typeid=#{typeid},create_time=#{createTime},creator=#{creator},modify_time=#{modifyTime},modifier=#{modifier},origin=#{origin},price=#{price},unit=#{unit},is_discount=#{isDiscount},inventory=#{inventory},image_path=#{imagePath} WHERE id=#{id}
     </update>
 
     <select id="getAllFoodstuffList" resultMap="foodstuff-query">

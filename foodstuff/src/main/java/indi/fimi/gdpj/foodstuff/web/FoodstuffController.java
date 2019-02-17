@@ -1,6 +1,8 @@
 package indi.fimi.gdpj.foodstuff.web;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import indi.fimi.gdpj.foodstuff.domain.Foodstuff;
 import indi.fimi.gdpj.foodstuff.domain.FoodstuffKind;
@@ -50,11 +52,15 @@ public class FoodstuffController {
 
     @ResponseBody
     @RequestMapping(value = "/get_all_foodstuff")
-    public Map<String, Object> getAllFoodstuffList() {
+    public Map<String, Object> getAllFoodstuffList(@RequestParam(name = "pageSize",defaultValue = "10")Integer pageSize,
+                                                   @RequestParam(name = "currentPage",defaultValue = "1")Integer currentPage) {
         log.info("Access the api /get_all_foodstuff");
+        log.info("pageSize {} currentPage {}",pageSize,currentPage);
         Map<String, Object> json = Maps.newHashMap();
+        PageHelper.startPage(currentPage,pageSize);
         List<Foodstuff> foodstuffList = foodstuffService.getAllFoodstuffList();
-        json.put("foodstuffList", foodstuffList);
+        PageInfo<Foodstuff> foodstuffPage = new PageInfo<Foodstuff>(foodstuffList);
+        json.put("foodstuffList", foodstuffPage);
         json.put("msg", "successfully!");
         return json;
     }
@@ -96,6 +102,7 @@ public class FoodstuffController {
     @ResponseBody
     @RequestMapping(value = "/get_all_foodstuff_kind")
     public Map<String, Object> getAllFoodstuffKindList() {
+        log.info("Access the api /get_all_foodstuff_kind");
         Map<String, Object> json = Maps.newHashMap();
         List<FoodstuffKind> foodstuffKindList = foodstuffService.getAllFoodstuffKindList();
         json.put("foodstuffKindList", foodstuffKindList);

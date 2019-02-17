@@ -16,12 +16,12 @@ public class TestShoppingCartMapper {
     @Autowired
     private ShoppingCartMapper shoppingCartMapper;
 
-    @Test
-    public void test(){
-        List<ShoppingCartDetail> shoppingCartDetailList = shoppingCartMapper.getAllShoppingCartDetailList();
-        for(ShoppingCartDetail item : shoppingCartDetailList){
-            System.out.println(item);
-        }
-    }
+//    @Test
+//    public void test(){
+//        List<ShoppingCartDetail> shoppingCartDetailList = shoppingCartMapper.getAllShoppingCartDetailListByUid();
+//        for(ShoppingCartDetail item : shoppingCartDetailList){
+//            System.out.println(item);
+//        }
+//    }
 
 }

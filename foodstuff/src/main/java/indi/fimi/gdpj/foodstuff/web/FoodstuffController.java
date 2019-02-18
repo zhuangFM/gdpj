@@ -38,6 +38,8 @@ public class FoodstuffController {
     @ResponseBody
     @RequestMapping(value = "/save_foodstuff")
     public Map<String, Object> saveFoodStuff(@RequestBody List<Foodstuff> foodstuffList) {
+        log.info("Access the api /save_foodstuff");
+        log.info("foodstufflist {} ",foodstuffList);
         for (Foodstuff item : foodstuffList) {
             if (null == item.getId()) {
                 foodstuffService.addFoodstuff(item);

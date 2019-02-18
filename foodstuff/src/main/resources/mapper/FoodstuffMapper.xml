@@ -11,7 +11,7 @@
         <result property="origin" column="origin"/>
         <result property="price" column="price"/>
         <result property="unit" column="unit"/>
-        <result property="ceateTime" column="create_time"/>
+        <result property="createTime" column="create_time"/>
         <result property="creator" column="creator"/>
         <result property="modifyTime" column="modify_time"/>
         <result property="modifier" column="modifier"/>

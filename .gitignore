@@ -2,4 +2,5 @@
 *.class
 *.iml
 .idea/**
+**/.idea/**
 

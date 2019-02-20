@@ -69,7 +69,7 @@
     </update>
 
     <delete id="deleteUserById">
-        DELETE * FROM gdpj_user WHERE `id`=#{id}
+        DELETE FROM gdpj_user WHERE `id`=#{id}
     </delete>
 
     <!-- auth_rule table -->
@@ -82,7 +82,7 @@
     </update>
 
     <delete id="deleteAuthRuleById">
-        DELETE * FROM auth_rule WHERE `id`=#{id}
+        DELETE FROM auth_rule WHERE `id`=#{id}
     </delete>
 
     <!-- user_auth table -->
@@ -91,7 +91,7 @@
     </insert>
 
     <delete id="deleteUserAuthById">
-        DELETE * FROM user_auth WHERE `id`=#{id}
+        DELETE FROM user_auth WHERE `id`=#{id}
     </delete>
 
 

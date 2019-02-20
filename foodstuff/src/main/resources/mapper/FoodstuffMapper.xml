@@ -35,7 +35,7 @@
     </insert>
 
     <update id="modifyFoodstuffById">
-        UPDATE foodstuff SET name=#{name},desc=#{desc},typeid=#{typeid},create_time=#{createTime},creator=#{creator},modify_time=#{modifyTime},modifier=#{modifier},origin=#{origin},price=#{price},unit=#{unit},is_discount=#{isDiscount},inventory=#{inventory},image_path=#{imagePath} WHERE id=#{id}
+        UPDATE foodstuff SET `name`=#{name},`desc`=#{desc},`typeid`=#{typeid},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier},`origin`=#{origin},`price`=#{price},`unit`=#{unit},`is_discount`=#{isDiscount},`inventory`=#{inventory},`image_path`=#{imagePath} WHERE `id`=#{id}
     </update>
 
     <select id="getAllFoodstuffList" resultMap="foodstuff-query">
@@ -47,7 +47,7 @@
     </select>
 
     <delete id="deleteFoodstuffById">
-        DELETE * FROM foodstuff WHERE id=#{id}
+        DELETE FROM foodstuff WHERE id=#{id}
     </delete>
 
     <insert id="addFoodstuffKind" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
@@ -55,7 +55,7 @@
     </insert>
 
     <update id="modifyFoodstuffKindById">
-        UPDATE foodstuff_kind SET name=#{name},desc=#{desc},create_time=#{createTime},creator=#{creator},modify_time=#{modifyTime},modifier=#{modifier} WHERE id=#{id}
+        UPDATE foodstuff_kind SET `name`=#{name},`desc`=#{desc},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier} WHERE `id`=#{id}
     </update>
 
     <select id="getAllFoodstuffKindList" resultMap="foodstuff-kind-query">
@@ -67,7 +67,7 @@
     </select>
 
     <delete id="deleteFoodstuffKindById">
-        DELETE * FROM foodstuff_kind WHERE id=#{id}
+        DELETE FROM foodstuff_kind WHERE id=#{id}
     </delete>
 
 </mapper>

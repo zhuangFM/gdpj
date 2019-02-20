@@ -49,7 +49,7 @@
     </select>
 
     <delete id="deleteTransactionOrderById">
-        DELETE * FROM transaction_order WHERE id=#{id}
+        DELETE FROM transaction_order WHERE id=#{id}
     </delete>
 
     <insert id="addTransactionOrderDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
@@ -73,11 +73,11 @@
     </select>
 
     <delete id="deleteTransactionOrderDetailById">
-        DELETE * FROM transaction_order_detail WHERE id=#{id}
+        DELETE FROM transaction_order_detail WHERE id=#{id}
     </delete>
 
     <delete id="deleteTransactionOrderDetailsByTOId">
-        DELETE * FROM transaction_order_detail WHERE transaction_order_id=#{toid}
+        DELETE FROM transaction_order_detail WHERE transaction_order_id=#{toid}
     </delete>
 
     <insert id="addPaymentRecord" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
@@ -101,6 +101,6 @@
     </select>
 
     <delete id="deletePaymentRecordById">
-        DELETE * FROM payment_record WHERE id=#{id}
+        DELETE FROM payment_record WHERE id=#{id}
     </delete>
 </mapper>

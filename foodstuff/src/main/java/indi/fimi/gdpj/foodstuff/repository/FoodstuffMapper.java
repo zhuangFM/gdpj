@@ -14,6 +14,7 @@ public interface FoodstuffMapper {
 
     Foodstuff getFoodstuffById(@Param("id") Integer id);
 
+
     void addFoodstuff(Foodstuff foodstuff);
 
     void modifyFoodstuffById(Foodstuff foodstuff);

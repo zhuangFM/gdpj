@@ -22,4 +22,12 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:1001/eureka/
 
+logging:
+  level:
+     indi.fimi.gdpj.foodstuff.repository: debug
+
+image:
+  upload:
+    basePath: E:/graduation_project/gdpj-admin/static/images/
+
 

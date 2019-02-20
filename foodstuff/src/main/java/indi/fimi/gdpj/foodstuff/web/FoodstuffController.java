@@ -10,12 +10,20 @@ import indi.fimi.gdpj.foodstuff.service.FoodstuffService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +32,9 @@ public class FoodstuffController {
 
     @Autowired
     private FoodstuffService foodstuffService;
+
+    @Value("${image.upload.basePath}")
+    private String basePath;
 
     private static Logger log = LoggerFactory.getLogger(FoodstuffController.class);
 
@@ -39,7 +50,7 @@ public class FoodstuffController {
     @RequestMapping(value = "/save_foodstuff")
     public Map<String, Object> saveFoodStuff(@RequestBody List<Foodstuff> foodstuffList) {
         log.info("Access the api /save_foodstuff");
-        log.info("foodstufflist {} ",foodstuffList);
+        log.info("foodstufflist {} ", foodstuffList);
         for (Foodstuff item : foodstuffList) {
             if (null == item.getId()) {
                 foodstuffService.addFoodstuff(item);
@@ -48,18 +59,18 @@ public class FoodstuffController {
             }
         }
         Map<String, Object> json = Maps.newHashMap();
-        json.put("msg", "successfully! handle record counts : "+foodstuffList.size());
+        json.put("msg", "successfully! handle record counts : " + foodstuffList.size());
         return json;
     }
 
     @ResponseBody
     @RequestMapping(value = "/get_all_foodstuff")
-    public Map<String, Object> getAllFoodstuffList(@RequestParam(name = "pageSize",defaultValue = "10")Integer pageSize,
-                                                   @RequestParam(name = "currentPage",defaultValue = "1")Integer currentPage) {
+    public Map<String, Object> getAllFoodstuffList(@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                   @RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage) {
         log.info("Access the api /get_all_foodstuff");
-        log.info("pageSize {} currentPage {}",pageSize,currentPage);
+        log.info("pageSize {} currentPage {}", pageSize, currentPage);
         Map<String, Object> json = Maps.newHashMap();
-        PageHelper.startPage(currentPage,pageSize);
+        PageHelper.startPage(currentPage, pageSize);
         List<Foodstuff> foodstuffList = foodstuffService.getAllFoodstuffList();
         PageInfo<Foodstuff> foodstuffPage = new PageInfo<Foodstuff>(foodstuffList);
         json.put("foodstuffList", foodstuffPage);
@@ -87,10 +98,52 @@ public class FoodstuffController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/upload_foodstuff_images")
+    public Map<String, Object> uploadFoodstuffImages(HttpServletRequest request) throws IOException {
+        Integer id = Integer.valueOf(request.getParameter("id"));
+        Foodstuff foodstuff = foodstuffService.getFoodstuffById(id);
+        log.info("access api /upload_foodstuff_images where id is {}", id);
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
+        //检查form中是否有enctype="multipart/form-data"
+        if (multipartResolver.isMultipart(request)) {
+            //将request变成多部分request
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            //获取multiRequest 中所有的文件名
+            Iterator iter = multiRequest.getFileNames();
+            String folderPath = this.basePath + id;
+            File folder = new File(folderPath);
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            while (iter.hasNext()) {
+                //一次遍历所有文件
+                MultipartFile file = multiRequest.getFile(iter.next().toString());
+                if (file != null) {
+                    String path = folderPath + "\\" + file.getOriginalFilename();
+                    //上传
+                    file.transferTo(new File(path));
+                    //update foodstuff
+                    if (null == foodstuff.getImagePath() || "".equals(foodstuff.getImagePath())) {
+                        foodstuff.setImagePath(file.getOriginalFilename());
+                    } else {
+                        foodstuff.setImagePath(foodstuff.getImagePath() + "," + file.getOriginalFilename());
+                    }
+                    foodstuffService.modifyFoodstuffById(foodstuff);
+                    log.info("uploaded a image where path is {}", path);
+                }
+            }
+        }
+        Map<String, Object> json = Maps.newHashMap();
+        json.put("msg", "successfully! upload foodstuff where id = " + id);
+        return json;
+    }
+
+
+    @ResponseBody
     @RequestMapping(value = "/save_foodstuff_kind")
     public Map<String, Object> saveFoodStuffKind(@RequestBody List<FoodstuffKind> foodstuffKindList) {
         log.info("Access the api /save_foodstuff");
-        log.info("foodstuffKindlist {} ",foodstuffKindList);
+        log.info("foodstuffKindlist {} ", foodstuffKindList);
         for (FoodstuffKind item : foodstuffKindList) {
             if (null == item.getId()) {
                 foodstuffService.addFoodstuffKind(item);
@@ -99,7 +152,7 @@ public class FoodstuffController {
             }
         }
         Map<String, Object> json = Maps.newHashMap();
-        json.put("msg", "successfully!handle record counts : "+foodstuffKindList.size());
+        json.put("msg", "successfully!handle record counts : " + foodstuffKindList.size());
         return json;
     }
 
@@ -127,9 +180,10 @@ public class FoodstuffController {
     @ResponseBody
     @RequestMapping(value = "/delete_foodstuff_kind_by_id")
     public Map<String, Object> deleteFoodstuffKindById(@RequestParam("id") Integer id) {
+        log.info("Access the api /get_foodstuff_kind_by_id where id is {}", id);
         Map<String, Object> json = Maps.newHashMap();
         foodstuffService.deleteFoodstuffKindById(id);
-        json.put("msg", "successfully! delete foodstuffKind where id = "+ id);
+        json.put("msg", "successfully! delete foodstuffKind where id = " + id);
         return json;
     }
 }

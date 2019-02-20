@@ -7,9 +7,9 @@ public class Foodstuff {
     private String name;
     private String desc;
     private Integer typeid;
-    private Date createTime;
+    private String createTime;
     private String creator;
-    private Date modifyTime;
+    private String modifyTime;
     private String modifier;
     private String origin;
     private Integer price;
@@ -50,11 +50,11 @@ public class Foodstuff {
         this.typeid = typeid;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
@@ -66,11 +66,11 @@ public class Foodstuff {
         this.creator = creator;
     }
 
-    public Date getModifyTime() {
+    public String getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
     }
 

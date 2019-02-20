@@ -29,16 +29,16 @@ public class FoodstuffServiceImpl implements FoodstuffService {
 
     @Override
     public void addFoodstuff(Foodstuff foodstuff) {
-        foodstuff.setCreateTime(TimeGetter.getCurrentTime());
+        foodstuff.setCreateTime(TimeGetter.getCurrentTimeStr());
         foodstuff.setCreator("fimi.zhuang");
-        foodstuff.setModifyTime(TimeGetter.getCurrentTime());
+        foodstuff.setModifyTime(TimeGetter.getCurrentTimeStr());
         foodstuff.setModifier("fimi.zhuang");
         foodstuffMapper.addFoodstuff(foodstuff);
     }
 
     @Override
     public void modifyFoodstuffById(Foodstuff foodstuff) {
-        foodstuff.setModifyTime(TimeGetter.getCurrentTime());
+        foodstuff.setModifyTime(TimeGetter.getCurrentTimeStr());
         foodstuffMapper.modifyFoodstuffById(foodstuff);
     }
 
@@ -59,16 +59,16 @@ public class FoodstuffServiceImpl implements FoodstuffService {
 
     @Override
     public void addFoodstuffKind(FoodstuffKind foodstuffKind) {
-        foodstuffKind.setCreateTime(TimeGetter.getCurrentTime());
+        foodstuffKind.setCreateTime(TimeGetter.getCurrentTimeStr());
         foodstuffKind.setCreator("fimi.zhuang");
-        foodstuffKind.setModifyTime(TimeGetter.getCurrentTime());
+        foodstuffKind.setModifyTime(TimeGetter.getCurrentTimeStr());
         foodstuffKind.setModifier("fimi.zhuang");
         foodstuffMapper.addFoodstuffKind(foodstuffKind);
     }
 
     @Override
     public void modifyFoodstuffKindById(FoodstuffKind foodstuffKind) {
-        foodstuffKind.setModifyTime(TimeGetter.getCurrentTime());
+        foodstuffKind.setModifyTime(TimeGetter.getCurrentTimeStr());
         foodstuffMapper.modifyFoodstuffKindById(foodstuffKind);
     }
 

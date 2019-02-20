@@ -1,21 +1,23 @@
 package indi.fimi.gdpj.common.utils;
 
 
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TimeGetter {
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    public static String getCurrentTimeStr(){
+
+    public static String getCurrentTimeStr() {
         return FORMAT.format(new Date());
     }
 
-    public static String getCurrentDateStr(){
+    public static String getCurrentDateStr() {
         return FORMAT.format(new Date());
     }
 
-    public static Date getCurrentTime(){
+    public static Date getCurrentTime() {
         Date result = null;
         try {
             result = FORMAT.parse(getCurrentTimeStr());
@@ -26,7 +28,7 @@ public class TimeGetter {
         return result;
     }
 
-    public static Date getCurrentDate(){
+    public static Date getCurrentDate() {
         Date result = null;
         try {
             result = FORMAT.parse(getCurrentDateStr());

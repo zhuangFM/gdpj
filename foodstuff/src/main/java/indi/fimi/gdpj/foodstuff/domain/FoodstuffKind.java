@@ -1,5 +1,7 @@
 package indi.fimi.gdpj.foodstuff.domain;
 
+import indi.fimi.gdpj.common.utils.TimeGetter;
+
 import java.util.Date;
 
 public class FoodstuffKind {

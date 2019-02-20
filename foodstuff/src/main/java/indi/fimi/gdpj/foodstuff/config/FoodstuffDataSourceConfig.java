@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = FoodstuffDataSourceConfig.PACKAGE, sqlSessionFactoryRef = "foodstuffSqlSessionFactory")
 public class FoodstuffDataSourceConfig {
 
-    static final String PACKAGE = "indi.fimi.gdpj.foodstuff.domain";
+    static final String PACKAGE = "indi.fimi.gdpj.foodstuff.repository";
 
     private static final String MAPPER_LOCATION = "classpath:mapper/*.xml";
 

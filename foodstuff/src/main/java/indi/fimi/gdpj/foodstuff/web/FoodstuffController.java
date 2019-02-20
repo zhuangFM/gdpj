@@ -89,6 +89,8 @@ public class FoodstuffController {
     @ResponseBody
     @RequestMapping(value = "/save_foodstuff_kind")
     public Map<String, Object> saveFoodStuffKind(@RequestBody List<FoodstuffKind> foodstuffKindList) {
+        log.info("Access the api /save_foodstuff");
+        log.info("foodstuffKindlist {} ",foodstuffKindList);
         for (FoodstuffKind item : foodstuffKindList) {
             if (null == item.getId()) {
                 foodstuffService.addFoodstuffKind(item);

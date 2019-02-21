@@ -11,7 +11,11 @@ import java.util.List;
 
 public interface AdminService {
 
+    void addSystemLog(SystemLog systemLog);
+
     List<SystemLog> getAllSystemLogList();
+
+    void deleteSystemLogById(Integer id);
 
     List<User> getAllUserList();
 
@@ -20,6 +24,10 @@ public interface AdminService {
     User getUserByUname(String uname);
 
     User getUserByUid(Integer id);
+
+    User getUserByPhone(String phone);
+
+    boolean checkUserExistByPhone(String phone);
 
     void modifyUserByUid(User user);
 

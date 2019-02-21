@@ -1,10 +1,16 @@
 package indi.fimi.gdpj.transaction.web;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import indi.fimi.gdpj.transaction.domain.PaymentRecord;
 import indi.fimi.gdpj.transaction.domain.TransactionOrder;
 import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
+import indi.fimi.gdpj.transaction.domain.TransactionOrderDetailInfo;
 import indi.fimi.gdpj.transaction.service.TransactionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +27,8 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+
+    private static Logger log = LoggerFactory.getLogger(TransactionController.class);
 
     @RequestMapping("/save_transaction_order")
     @ResponseBody
@@ -32,17 +41,22 @@ public class TransactionController {
             transactionService.modifyTransactionOrder(transactionOrder);
             json.put("msg", "modify one record successfully!");
         }
-        json.put("code",1);
+        json.put("code", 1);
         return json;
     }
 
     @RequestMapping("/get_all_transaction_order")
     @ResponseBody
-    public Map<String, Object> getAllTransactionOrderList() {
+    public Map<String, Object> getAllTransactionOrderList(@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                          @RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage) {
+        log.info("Access the api /get_all_transaction_order");
+        log.info("pageSize {} currentPage {}", pageSize, currentPage);
         Map<String, Object> json = Maps.newHashMap();
+        PageHelper.startPage(currentPage, pageSize);
         List<TransactionOrder> transactionOrderList = transactionService.getAllTransactionOrderList();
-        json.put("transactionOrderList",transactionOrderList);
-        json.put("code",1);
+        PageInfo<TransactionOrder> transactionOrderPage = new PageInfo<TransactionOrder>(transactionOrderList);
+        json.put("transactionOrderList", transactionOrderPage);
+        json.put("code", 1);
         return json;
     }
 
@@ -51,8 +65,8 @@ public class TransactionController {
     public Map<String, Object> getTransactionOrdersByBuyerId(@RequestParam("buyerId") Integer buyerId) {
         Map<String, Object> json = Maps.newHashMap();
         List<TransactionOrder> transactionOrderList = transactionService.getTransactionOrdersByBuyerId(buyerId);
-        json.put("transactionOrderList",transactionOrderList);
-        json.put("buyerId",buyerId);
+        json.put("transactionOrderList", transactionOrderList);
+        json.put("buyerId", buyerId);
         json.put("code", 1);
         return json;
     }
@@ -62,7 +76,7 @@ public class TransactionController {
     public Map<String, Object> deleteTransactionOrdersByBuyerId(@RequestParam("id") Integer id) {
         Map<String, Object> json = Maps.newHashMap();
         transactionService.deleteTransactionOrderById(id);
-        json.put("msg",String.format("delete transactionOrder where id = %d",id));
+        json.put("msg", String.format("delete transactionOrder where id = %d", id));
         json.put("code", 1);
         return json;
     }
@@ -78,7 +92,7 @@ public class TransactionController {
             transactionService.modifyTransactionOrderDetail(transactionOrderDetail);
             json.put("msg", "modify one record successfully!");
         }
-        json.put("code",1);
+        json.put("code", 1);
         return json;
     }
 
@@ -87,8 +101,8 @@ public class TransactionController {
     public Map<String, Object> getAllTransactionOrderDetailList() {
         Map<String, Object> json = Maps.newHashMap();
         List<TransactionOrderDetail> transactionOrderDetailList = transactionService.getAllTransactionOrderDetailList();
-        json.put("transactionOrderDetailList",transactionOrderDetailList);
-        json.put("code",1);
+        json.put("transactionOrderDetailList", transactionOrderDetailList);
+        json.put("code", 1);
         return json;
     }
 
@@ -96,9 +110,9 @@ public class TransactionController {
     @ResponseBody
     public Map<String, Object> getTransactionOrderDetailByTOId(@RequestParam("toid") Integer toid) {
         Map<String, Object> json = Maps.newHashMap();
-        List<TransactionOrderDetail> transactionOrderDetailList = transactionService.getTransactionOrderDetailsByTOId(toid);
-        json.put("transactionOrderDetailList",transactionOrderDetailList);
-        json.put("toid",toid);
+        List<TransactionOrderDetailInfo> transactionOrderDetailInfoList = transactionService.getTransactionOrderDetailsInfoByTOId(toid);
+        json.put("transactionOrderDetailList", transactionOrderDetailInfoList);
+        json.put("toid", toid);
         json.put("code", 1);
         return json;
     }
@@ -108,70 +122,71 @@ public class TransactionController {
     public Map<String, Object> deleteTransactionOrderDetailsByTOId(@RequestParam("toid") Integer toid) {
         Map<String, Object> json = Maps.newHashMap();
         transactionService.deleteTransactionOrderDetailsByTOId(toid);
-        json.put("msg",String.format("delete transactionOrderDetail where toid = %d",toid));
+        json.put("msg", String.format("delete transactionOrderDetail where toid = %d", toid));
         json.put("code", 1);
         return json;
     }
 
     @ResponseBody
     @RequestMapping("/save_payment_record")
-    public Map<String,Object> savePaymentRecord(@RequestBody PaymentRecord paymentRecord){
-        Map<String,Object> json = Maps.newHashMap();
-        if(null == paymentRecord.getId()){
+    public Map<String, Object> savePaymentRecord(@RequestBody PaymentRecord paymentRecord) {
+        Map<String, Object> json = Maps.newHashMap();
+        if (null == paymentRecord.getId()) {
             transactionService.addPaymentRecord(paymentRecord);
-            json.put("msg","add one record successfully!");
-        }
-        else{
+            json.put("msg", "add one record successfully!");
+        } else {
             transactionService.modifyPaymentRecord(paymentRecord);
-            json.put("msg","modify one record successfully!");
+            json.put("msg", "modify one record successfully!");
         }
         return json;
     }
 
     @ResponseBody
     @RequestMapping("/get_all_payment_record")
-    public Map<String,Object> getAllPaymentRecordList(){
-        Map<String,Object> json = Maps.newHashMap();
+    public Map<String, Object> getAllPaymentRecordList(@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                       @RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage) {
+        log.info("Access the api /get_all_payment_record");
+        log.info("pageSize {} currentPage {}", pageSize, currentPage);
+        Map<String, Object> json = Maps.newHashMap();
+        PageHelper.startPage(currentPage,pageSize);
         List<PaymentRecord> paymentRecordList = transactionService.getAllPaymentList();
-        json.put("paymentRecordList",paymentRecordList);
-        json.put("code",1);
+        PageInfo<PaymentRecord> paymentRecordPage = new PageInfo<PaymentRecord>(paymentRecordList);
+        json.put("paymentRecordList", paymentRecordPage);
+        json.put("code", 1);
         return json;
     }
 
     @ResponseBody
     @RequestMapping("/get_payment_record_by_toid")
-    public Map<String,Object> getPaymentRecordByTOId(@RequestParam("toid") Integer toid){
-        Map<String,Object> json = Maps.newHashMap();
-        PaymentRecord paymentRecord= transactionService.getPaymentRecordByTOId(toid);
-        json.put("paymentRecord",paymentRecord);
-        json.put("toid",toid);
-        json.put("code",1);
+    public Map<String, Object> getPaymentRecordByTOId(@RequestParam("toid") Integer toid) {
+        Map<String, Object> json = Maps.newHashMap();
+        PaymentRecord paymentRecord = transactionService.getPaymentRecordByTOId(toid);
+        json.put("paymentRecord", paymentRecord);
+        json.put("toid", toid);
+        json.put("code", 1);
         return json;
     }
 
     @ResponseBody
     @RequestMapping("/get_payment_record_by_id")
-    public Map<String,Object> getPaymentRecordById(@RequestParam("id") Integer id){
-        Map<String,Object> json = Maps.newHashMap();
-        PaymentRecord paymentRecord= transactionService.getPaymentRecordById(id);
-        json.put("paymentRecord",paymentRecord);
-        json.put("id",id);
-        json.put("code",1);
+    public Map<String, Object> getPaymentRecordById(@RequestParam("id") Integer id) {
+        Map<String, Object> json = Maps.newHashMap();
+        PaymentRecord paymentRecord = transactionService.getPaymentRecordById(id);
+        json.put("paymentRecord", paymentRecord);
+        json.put("id", id);
+        json.put("code", 1);
         return json;
     }
 
     @ResponseBody
     @RequestMapping("/delete_payment_record_by_id")
-    public Map<String,Object> deletePaymentRecordById(@RequestParam("id") Integer id){
-        Map<String,Object> json = Maps.newHashMap();
+    public Map<String, Object> deletePaymentRecordById(@RequestParam("id") Integer id) {
+        Map<String, Object> json = Maps.newHashMap();
         transactionService.deletePaymentRecordById(id);
-        json.put("msg",String.format("delete one record where id = %d",id));
-        json.put("code",1);
+        json.put("msg", String.format("delete one record where id = %d", id));
+        json.put("code", 1);
         return json;
     }
-
-
-
 
 
 }

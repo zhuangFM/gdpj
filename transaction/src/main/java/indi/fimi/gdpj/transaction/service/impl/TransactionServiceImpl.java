@@ -3,18 +3,24 @@ package indi.fimi.gdpj.transaction.service.impl;
 import indi.fimi.gdpj.transaction.domain.PaymentRecord;
 import indi.fimi.gdpj.transaction.domain.TransactionOrder;
 import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
+import indi.fimi.gdpj.transaction.domain.TransactionOrderDetailInfo;
 import indi.fimi.gdpj.transaction.repository.TransactionMapper;
+import indi.fimi.gdpj.transaction.rpc.FoodstuffModuleApi;
 import indi.fimi.gdpj.transaction.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("transactionService")
 public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
     private TransactionMapper transactionMapper;
+
+    @Autowired
+    private FoodstuffModuleApi foodstuffModuleApi;
 
     @Override
     public void addTransactionOrder(TransactionOrder transactionOrder) {
@@ -62,13 +68,28 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public TransactionOrderDetailInfo getTransactionOrderDetailInfoById(Integer id) {
+        return transactionMapper.getTransactionOrderDetailInfoById(id);
+    }
+
+    @Override
     public List<TransactionOrderDetail> getAllTransactionOrderDetailList() {
         return transactionMapper.getAllTransactionOrderDetailList();
     }
 
     @Override
+    public List<TransactionOrderDetailInfo> getAllTransactionOrderDetailInfoList() {
+        return transactionMapper.getAllTransactionOrderDetailInfoList();
+    }
+
+    @Override
     public List<TransactionOrderDetail> getTransactionOrderDetailsByTOId(Integer toid) {
         return transactionMapper.getTransactionOrderDetailsByTOId(toid);
+    }
+
+    @Override
+    public List<TransactionOrderDetailInfo> getTransactionOrderDetailsInfoByTOId(Integer toid) {
+        return transactionMapper.getTransactionOrderDetailsInfoByTOId(toid);
     }
 
     @Override
@@ -109,5 +130,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void deletePaymentRecordById(Integer id) {
         transactionMapper.deletePaymentRecordById(id);
+    }
+
+    @Override
+    public Map<String, Object> getFoodstuffInfoById(Integer id) {
+        return foodstuffModuleApi.getFoodstuffInfoById(id);
     }
 }

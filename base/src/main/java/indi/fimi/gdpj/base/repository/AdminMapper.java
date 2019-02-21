@@ -16,7 +16,11 @@ public interface AdminMapper {
     /**
      * system_log table
      */
+    void addSystemLog(SystemLog systemLog);
+
     List<SystemLog> getAllSystemLogList();
+
+    void deleteSystemLogById(@Param("id") Integer id);
 
     /**
      * gdpj_user table
@@ -26,6 +30,8 @@ public interface AdminMapper {
     void addUser(User user);
 
     User getUserByUname(@Param("uname") String uname);
+
+    User getUserByPhone(@Param("phone") String phone);
 
     User getUserByUid(@Param("id") Integer id);
 

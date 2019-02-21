@@ -6,9 +6,11 @@ import indi.fimi.gdpj.base.domain.UserAuth;
 import indi.fimi.gdpj.base.repository.AdminMapper;
 import indi.fimi.gdpj.base.domain.User;
 import indi.fimi.gdpj.base.service.AdminService;
+import indi.fimi.gdpj.common.utils.TimeGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.util.List;
 
 @Service("adminService")
@@ -33,7 +35,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public User getUserByPhone(String phone) {
+        return adminMapper.getUserByPhone(phone);
+    }
+
+    @Override
+    public boolean checkUserExistByPhone(String phone) {
+        return adminMapper.getUserByPhone(phone) != null;
+    }
+
+    @Override
     public void addUser(User user) {
+        user.setCreateTime(TimeGetter.getCurrentTimeStr());
         adminMapper.addUser(user);
     }
 
@@ -54,11 +67,17 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void addAuthRule(AuthRule authRule) {
+        authRule.setCreateTime(TimeGetter.getCurrentTimeStr());
+        authRule.setCreator("fimi.zhuang");
+        authRule.setModifyTime(TimeGetter.getCurrentTimeStr());
+        authRule.setModifier("fimi.zhuang");
         adminMapper.addAuthRule(authRule);
     }
 
     @Override
     public void modifyAuthRuleById(AuthRule authRule) {
+        authRule.setModifier("fimi.zhuang");
+        authRule.setModifyTime(TimeGetter.getCurrentTimeStr());
         adminMapper.modifyAuthRuleById(authRule);
     }
 
@@ -74,6 +93,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void addUserAuth(UserAuth userAuth) {
+        userAuth.setCreateTime(TimeGetter.getCurrentTimeStr());
+        userAuth.setCreator("fimi.zhuang");
         adminMapper.addUserAuth(userAuth);
     }
 
@@ -83,7 +104,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public void addSystemLog(SystemLog systemLog) {
+        systemLog.setCreateTime(TimeGetter.getCurrentTimeStr());
+        systemLog.setCreator("fimi.zhuang");
+        adminMapper.addSystemLog(systemLog);
+    }
+
+    @Override
     public List<SystemLog> getAllSystemLogList() {
         return adminMapper.getAllSystemLogList();
+    }
+
+    @Override
+    public void deleteSystemLogById(Integer id) {
+        adminMapper.deleteSystemLogById(id);
     }
 }

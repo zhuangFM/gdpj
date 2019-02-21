@@ -6,7 +6,7 @@ public class UserAuth {
     private Integer id;
     private Integer uid;
     private Integer authId;
-    private Date createTime;
+    private String createTime;
     private String creator;
 
     public Integer getId() {
@@ -33,11 +33,11 @@ public class UserAuth {
         this.authId = authId;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

@@ -1,20 +1,26 @@
 package indi.fimi.gdpj.foodstuff.service.impl;
 
+import com.google.common.collect.Maps;
 import indi.fimi.gdpj.common.utils.TimeGetter;
 import indi.fimi.gdpj.foodstuff.domain.Foodstuff;
 import indi.fimi.gdpj.foodstuff.domain.FoodstuffKind;
 import indi.fimi.gdpj.foodstuff.repository.FoodstuffMapper;
+import indi.fimi.gdpj.foodstuff.rpc.BaseModuleApi;
 import indi.fimi.gdpj.foodstuff.service.FoodstuffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("foodstuffServer")
 public class FoodstuffServiceImpl implements FoodstuffService {
 
     @Autowired
     private FoodstuffMapper foodstuffMapper;
+
+    @Autowired
+    private BaseModuleApi baseModuleApi;
 
 
     @Override
@@ -81,4 +87,14 @@ public class FoodstuffServiceImpl implements FoodstuffService {
     public void deleteFoodstuffKindById(Integer id) {
         foodstuffMapper.deleteFoodstuffKindById(id);
     }
+
+    @Override
+    public Map<String, Object> feignBaseModuleAddSystemLog(String content, String level, String action) {
+        Map<String,String> logMap = Maps.newHashMap();
+        logMap.put("content",content);
+        logMap.put("level",level);
+        logMap.put("action",action);
+        return baseModuleApi.feignBaseModuleAddSystemLog(logMap);
+    }
+
 }

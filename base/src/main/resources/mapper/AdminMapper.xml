@@ -10,6 +10,7 @@
         <result property="createTime" column="create_time"/>
         <result property="type" column="type"/>
         <result property="typeName" column="type_name"/>
+        <result property="phone" column="type_name"/>
     </resultMap>
 
     <resultMap id="admin-auth-rule-query" type="indi.fimi.gdpj.base.domain.AuthRule">
@@ -40,12 +41,21 @@
         <result property="content" column="content"/>
         <result property="createTime" column="create_time"/>
         <result property="creator" column="creator"/>
+        <result property="action" column="action"/>
     </resultMap>
 
     <!-- system_log table -->
+    <insert id="addSystemLog" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO system_log (`level`,`content`,`create_time`,`creator`,`action`) VALUES (#{level},#{content},#{createTime},#{creator},#{action})
+    </insert>
+
     <select id="getAllSystemLogList" resultMap="system-log-query">
         SELECT * FROM system_log
     </select>
+    
+    <delete id="deleteSystemLogById">
+        DELETE FROM system_log WHERE id=#{id}
+    </delete>
 
     <!-- gdpj_user table -->
     <select id="getAllUserList" resultMap="admin-user-query">
@@ -60,12 +70,16 @@
         SELECT * FROM gdpj_user WHERE `id`=#{id}
     </select>
 
+    <select id="getUserByPhone" resultMap="admin-user-query">
+        SELECT * FROM gdpj_user WHERE `phone`=#{phone}
+    </select>
+
     <insert id="addUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO gdpj_user (`uname`,`password`,`create_time`,`type`,`type_name`) VALUES (#{uname},#{password},#{createTime},#{type},#{typeName})
+        INSERT INTO gdpj_user (`uname`,`password`,`create_time`,`type`,`type_name`,`phone`) VALUES (#{uname},#{password},#{createTime},#{type},#{typeName},#{phone})
     </insert>
 
     <update id="modifyUserByUid">
-        UPDATE gdpj_user SET `uname`=#{uname},`password`=#{uname},`create_time`=#{createTime},`type`=#{type},`type_name`=#{typeName} WHERE `id`=#{id}
+        UPDATE gdpj_user SET `uname`=#{uname},`password`=#{uname},`create_time`=#{createTime},`type`=#{type},`type_name`=#{typeName},`phone`=#{phone} WHERE `id`=#{id}
     </update>
 
     <delete id="deleteUserById">

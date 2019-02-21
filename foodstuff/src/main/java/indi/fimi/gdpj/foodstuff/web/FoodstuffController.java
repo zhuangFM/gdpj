@@ -36,6 +36,9 @@ public class FoodstuffController {
     @Value("${image.upload.basePath}")
     private String basePath;
 
+    @Value("${image.upload.basePathForMac}")
+    private String basePathForMac;
+
     private static Logger log = LoggerFactory.getLogger(FoodstuffController.class);
 
     @RequestMapping(value = "/test")
@@ -54,8 +57,10 @@ public class FoodstuffController {
         for (Foodstuff item : foodstuffList) {
             if (null == item.getId()) {
                 foodstuffService.addFoodstuff(item);
+                foodstuffService.feignBaseModuleAddSystemLog("add a foodstuff","info","add");
             } else {
                 foodstuffService.modifyFoodstuffById(item);
+                foodstuffService.feignBaseModuleAddSystemLog(String.format("update a foodstuff where id is %d",item.getId()),"info","update");
             }
         }
         Map<String, Object> json = Maps.newHashMap();
@@ -103,6 +108,7 @@ public class FoodstuffController {
     public Map<String, Object> deleteFoodstuffById(@RequestParam("id") Integer id) {
         Map<String, Object> json = Maps.newHashMap();
         foodstuffService.deleteFoodstuffById(id);
+        foodstuffService.feignBaseModuleAddSystemLog(String.format("delete foodstuff where id = %d",id),"info","delete");
         json.put("msg", "successfully! delete foodstuff where id = " + id);
         return json;
     }
@@ -130,6 +136,7 @@ public class FoodstuffController {
                 MultipartFile file = multiRequest.getFile(iter.next().toString());
                 if (file != null) {
                     String path = folderPath + "/" + file.getOriginalFilename();
+                    log.info("the real upload path is {}",path);
                     //上传
                     file.transferTo(new File(path));
                     //update foodstuff
@@ -139,6 +146,7 @@ public class FoodstuffController {
                         foodstuff.setImagePath(foodstuff.getImagePath() + "," + file.getOriginalFilename());
                     }
                     foodstuffService.modifyFoodstuffById(foodstuff);
+                    foodstuffService.feignBaseModuleAddSystemLog(String.format("upload foodstuff image where path = %s",path),"info","upload");
                     log.info("uploaded a image where path is {}", path);
                 }
             }
@@ -157,8 +165,10 @@ public class FoodstuffController {
         for (FoodstuffKind item : foodstuffKindList) {
             if (null == item.getId()) {
                 foodstuffService.addFoodstuffKind(item);
+                foodstuffService.feignBaseModuleAddSystemLog("add a foodstuffKind","info","add");
             } else {
                 foodstuffService.modifyFoodstuffKindById(item);
+                foodstuffService.feignBaseModuleAddSystemLog(String.format("update a foodstuffKind where id is %d",item.getId()),"info","update");
             }
         }
         Map<String, Object> json = Maps.newHashMap();
@@ -193,6 +203,7 @@ public class FoodstuffController {
         log.info("Access the api /get_foodstuff_kind_by_id where id is {}", id);
         Map<String, Object> json = Maps.newHashMap();
         foodstuffService.deleteFoodstuffKindById(id);
+        foodstuffService.feignBaseModuleAddSystemLog(String.format("delete a foodstuffKind where id is %d",id),"info","delete");
         json.put("msg", "successfully! delete foodstuffKind where id = " + id);
         return json;
     }

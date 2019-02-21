@@ -3,8 +3,10 @@ package indi.fimi.gdpj.transaction.service;
 import indi.fimi.gdpj.transaction.domain.PaymentRecord;
 import indi.fimi.gdpj.transaction.domain.TransactionOrder;
 import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
+import indi.fimi.gdpj.transaction.domain.TransactionOrderDetailInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface TransactionService {
     void addTransactionOrder(TransactionOrder transactionOrder);
@@ -25,9 +27,15 @@ public interface TransactionService {
 
     TransactionOrderDetail getTransactionOrderDetailById(Integer id);
 
+    TransactionOrderDetailInfo getTransactionOrderDetailInfoById(Integer id);
+
     List<TransactionOrderDetail> getAllTransactionOrderDetailList();
 
+    List<TransactionOrderDetailInfo> getAllTransactionOrderDetailInfoList();
+
     List<TransactionOrderDetail> getTransactionOrderDetailsByTOId(Integer toid);
+
+    List<TransactionOrderDetailInfo> getTransactionOrderDetailsInfoByTOId(Integer toid);
 
     void deleteTransactionOrderDetailById(Integer id);
 
@@ -44,4 +52,6 @@ public interface TransactionService {
     List<PaymentRecord> getAllPaymentList();
 
     void deletePaymentRecordById(Integer id);
+
+    Map<String,Object> getFoodstuffInfoById(Integer id);
 }

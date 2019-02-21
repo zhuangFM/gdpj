@@ -24,7 +24,7 @@ public class TransactionOrder {
         return totalMoney;
     }
 
-    public void setTotalMoney(Integer totalMomey) {
+    public void setTotalMoney(Integer totalMoney) {
         this.totalMoney = totalMoney;
     }
 

@@ -4,6 +4,7 @@ import indi.fimi.gdpj.foodstuff.domain.Foodstuff;
 import indi.fimi.gdpj.foodstuff.domain.FoodstuffKind;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FoodstuffService {
     
@@ -28,5 +29,7 @@ public interface FoodstuffService {
     void modifyFoodstuffKindById(FoodstuffKind foodstuffKind);
 
     void deleteFoodstuffKindById(Integer id);
+
+    Map<String,Object> feignBaseModuleAddSystemLog(String content,String level,String action);
 
 }

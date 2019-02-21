@@ -3,6 +3,7 @@ package indi.fimi.gdpj.transaction.repository;
 import indi.fimi.gdpj.transaction.domain.PaymentRecord;
 import indi.fimi.gdpj.transaction.domain.TransactionOrder;
 import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
+import indi.fimi.gdpj.transaction.domain.TransactionOrderDetailInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,9 +30,15 @@ public interface TransactionMapper {
 
     TransactionOrderDetail getTransactionOrderDetailById(@Param("id") Integer id);
 
+    TransactionOrderDetailInfo getTransactionOrderDetailInfoById(@Param("id") Integer id);
+
     List<TransactionOrderDetail> getAllTransactionOrderDetailList();
 
+    List<TransactionOrderDetailInfo> getAllTransactionOrderDetailInfoList();
+
     List<TransactionOrderDetail> getTransactionOrderDetailsByTOId(@Param("toid") Integer toid);
+
+    List<TransactionOrderDetailInfo> getTransactionOrderDetailsInfoByTOId(@Param("toid") Integer toid);
 
     void deleteTransactionOrderDetailById(@Param("id") Integer id);
 

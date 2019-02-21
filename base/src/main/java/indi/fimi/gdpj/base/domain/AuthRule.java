@@ -7,9 +7,9 @@ public class AuthRule {
     private Integer parentId;
     private String name;
     private Integer order;
-    private Date createTime;
+    private String createTime;
     private String creator;
-    private Date modifyTime;
+    private String modifyTime;
     private String modifier;
     private Integer type;
     private String parent;
@@ -47,11 +47,11 @@ public class AuthRule {
         this.order = order;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
@@ -63,11 +63,11 @@ public class AuthRule {
         this.creator = creator;
     }
 
-    public Date getModifyTime() {
+    public String getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
     }
 

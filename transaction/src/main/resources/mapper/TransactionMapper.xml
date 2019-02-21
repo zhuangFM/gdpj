@@ -7,7 +7,7 @@
         <id property="id" column="id"/>
         <result property="totalMoney" column="total_money"/>
         <result property="buyerId" column="buyer_id"/>
-        <result property="ceateTime" column="create_time"/>
+        <result property="createTime" column="create_time"/>
         <result property="creator" column="creator"/>
         <result property="modifyTime" column="modify_time"/>
         <result property="modifier" column="modifier"/>
@@ -19,6 +19,14 @@
         <result property="transactionOrderId" column="transaction_order_id"/>
         <result property="foodstuffId" column="foodstuff_id"/>
         <result property="amount" column="amount"/>
+    </resultMap>
+
+    <resultMap id="transaction-order-detail-info-query" type="indi.fimi.gdpj.transaction.domain.TransactionOrderDetailInfo">
+        <id property="id" column="id"/>
+        <result property="transactionOrderId" column="transaction_order_id"/>
+        <result property="foodstuffId" column="foodstuff_id"/>
+        <result property="amount" column="amount"/>
+        <result property="foodstuffName" column="foodstuff_name"/>
     </resultMap>
 
     <resultMap id="payment-record-query" type="indi.fimi.gdpj.transaction.domain.PaymentRecord">
@@ -63,13 +71,25 @@
     <select id="getTransactionOrderDetailById" resultMap="transaction-order-detail-query">
         SELECT * FROM transaction_order_detail WHERE id=#{id}
     </select>
+
+    <select id="getTransactionOrderDetailInfoById" resultMap="transaction-order-detail-info-query">
+        SELECT tod.*,fs.name AS foodstuff_name FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id) WHERE tod.id=#{id}
+    </select>
     
     <select id="getAllTransactionOrderDetailList" resultMap="transaction-order-detail-query">
         SELECT * FROM transaction_order_detail
     </select>
 
+    <select id="getAllTransactionOrderDetailInfoList" resultMap="transaction-order-detail-info-query">
+        SELECT tod.*,fs.name AS foodstuff_name FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id)
+    </select>
+
     <select id="getTransactionOrderDetailsByTOId" resultMap="transaction-order-detail-query">
         SELECT * FROM transaction_order_detail WHERE transaction_order_id=#{toid}
+    </select>
+
+    <select id="getTransactionOrderDetailsInfoByTOId" resultMap="transaction-order-detail-info-query">
+        SELECT tod.*,fs.name AS foodstuff_name FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id) WHERE tod.transaction_order_id=#{toid}
     </select>
 
     <delete id="deleteTransactionOrderDetailById">

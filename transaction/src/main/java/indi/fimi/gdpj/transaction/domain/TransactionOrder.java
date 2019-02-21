@@ -6,9 +6,9 @@ public class TransactionOrder {
     private Integer id;
     private Integer totalMoney;
     private Integer buyerId;
-    private Date createTime;
+    private String createTime;
     private String creator;
-    private Date modifyTime;
+    private String modifyTime;
     private String modifier;
     private Integer status;
 
@@ -36,11 +36,11 @@ public class TransactionOrder {
         this.buyerId = buyerId;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
@@ -52,11 +52,11 @@ public class TransactionOrder {
         this.creator = creator;
     }
 
-    public Date getModifyTime() {
+    public String getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Date modifyTime) {
+    public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
     }
 

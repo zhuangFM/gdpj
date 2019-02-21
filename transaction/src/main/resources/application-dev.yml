@@ -22,4 +22,8 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:1001/eureka/
 
+logging:
+  level:
+    indi.fimi.gdpj.transaction.repository: debug
+
 

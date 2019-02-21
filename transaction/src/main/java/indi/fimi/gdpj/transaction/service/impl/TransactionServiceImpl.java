@@ -5,12 +5,15 @@ import indi.fimi.gdpj.transaction.domain.TransactionOrder;
 import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
 import indi.fimi.gdpj.transaction.repository.TransactionMapper;
 import indi.fimi.gdpj.transaction.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service("transactionService")
 public class TransactionServiceImpl implements TransactionService {
+
+    @Autowired
     private TransactionMapper transactionMapper;
 
     @Override

@@ -89,6 +89,16 @@ public class FoodstuffController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/get_foodstuff_images_by_id")
+    public Map<String, Object> getFoodstuffImagesById(@RequestParam("id") Integer id) {
+        Map<String, Object> json = Maps.newHashMap();
+        String imagePath = foodstuffService.getFoodstuffImagePathById(id);
+        json.put("imagePath", imagePath);
+        json.put("msg", "successfully!");
+        return json;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/delete_foodstuff_by_id")
     public Map<String, Object> deleteFoodstuffById(@RequestParam("id") Integer id) {
         Map<String, Object> json = Maps.newHashMap();
@@ -119,7 +129,7 @@ public class FoodstuffController {
                 //一次遍历所有文件
                 MultipartFile file = multiRequest.getFile(iter.next().toString());
                 if (file != null) {
-                    String path = folderPath + "\\" + file.getOriginalFilename();
+                    String path = folderPath + "/" + file.getOriginalFilename();
                     //上传
                     file.transferTo(new File(path));
                     //update foodstuff

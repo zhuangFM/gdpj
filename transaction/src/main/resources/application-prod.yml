@@ -1,8 +1,8 @@
 server:
-  port: 2002
+  port: 2003
 spring:
   datasource:
-    foodstuff:
+    transaction:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
       url: jdbc:mysql://fimidb.c4ekgmbd9nre.us-east-2.rds.amazonaws.com:3306/gdpj?useUnicode=true&characterEncoding=UTF-8&useSSL=false
@@ -15,7 +15,7 @@ spring:
       filters: stat,wall
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
   application:
-    name: foodstuff-module
+    name: transaction-module
 
 eureka:
   client:
@@ -24,10 +24,6 @@ eureka:
 
 logging:
   level:
-     indi.fimi.gdpj.foodstuff.repository: debug
-
-image:
-  upload:
-    basePath: /Users/zhuangfengming/graduation_project/gdpj-admin/static/images/
+    indi.fimi.gdpj.transaction.repository: debug
 
 

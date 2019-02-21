@@ -5,7 +5,7 @@ import java.util.Date;
 public class PaymentRecord {
     private Integer id;
     private Integer transactionOrderId;
-    private Date createTime;
+    private String createTime;
     private String creator;
 
     public Integer getId() {
@@ -24,11 +24,11 @@ public class PaymentRecord {
         this.transactionOrderId = transactionOrderId;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 

@@ -46,6 +46,10 @@
         SELECT * FROM foodstuff WHERE id=#{id}
     </select>
 
+    <select id="getFoodstuffImagePathById" resultType="java.lang.String">
+        SELECT image_path FROM foodstuff WHERE id=#{id}
+    </select>
+
     <delete id="deleteFoodstuffById">
         DELETE FROM foodstuff WHERE id=#{id}
     </delete>

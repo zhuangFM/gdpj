@@ -11,6 +11,8 @@ public interface FoodstuffService {
 
     Foodstuff getFoodstuffById(Integer id);
 
+    String getFoodstuffImagePathById(Integer id);
+
     void addFoodstuff(Foodstuff foodstuff);
 
     void modifyFoodstuffById(Foodstuff foodstuff);

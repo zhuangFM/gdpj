@@ -28,6 +28,11 @@ public class FoodstuffServiceImpl implements FoodstuffService {
     }
 
     @Override
+    public String getFoodstuffImagePathById(Integer id) {
+        return foodstuffMapper.getFoodstuffImagePathById(id);
+    }
+
+    @Override
     public void addFoodstuff(Foodstuff foodstuff) {
         foodstuff.setCreateTime(TimeGetter.getCurrentTimeStr());
         foodstuff.setCreator("fimi.zhuang");

@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface FoodstuffService {
-    
+
     List<Foodstuff> getAllFoodstuffList();
+
+    List<Foodstuff> getFoodstuffListByName(String name);
 
     Foodstuff getFoodstuffById(Integer id);
 
@@ -30,6 +32,6 @@ public interface FoodstuffService {
 
     void deleteFoodstuffKindById(Integer id);
 
-    Map<String,Object> feignBaseModuleAddSystemLog(String content,String level,String action);
+    Map<String, Object> feignBaseModuleAddSystemLog(String content, String level, String action);
 
 }

@@ -12,6 +12,8 @@ public interface FoodstuffMapper {
 
     List<Foodstuff> getAllFoodstuffList();
 
+    List<Foodstuff> getFoodstuffListByName(@Param("name") String name);
+
     Foodstuff getFoodstuffById(@Param("id") Integer id);
 
     String getFoodstuffImagePathById(@Param("id") Integer id);

@@ -42,6 +42,10 @@
         SELECT * FROM foodstuff
     </select>
 
+    <select id="getFoodstuffListByName" resultMap="foodstuff-query">
+        SELECT * FROM foodstuff WHERE `name` LIKE CONCAT('%',#{name},'%')
+    </select>
+
     <select id="getFoodstuffById" resultMap="foodstuff-query">
         SELECT * FROM foodstuff WHERE id=#{id}
     </select>

@@ -29,6 +29,11 @@ public class FoodstuffServiceImpl implements FoodstuffService {
     }
 
     @Override
+    public List<Foodstuff> getFoodstuffListByName(String name) {
+        return foodstuffMapper.getFoodstuffListByName(name);
+    }
+
+    @Override
     public Foodstuff getFoodstuffById(Integer id) {
         return foodstuffMapper.getFoodstuffById(id);
     }

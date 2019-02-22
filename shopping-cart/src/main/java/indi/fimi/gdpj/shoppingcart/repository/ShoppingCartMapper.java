@@ -1,6 +1,7 @@
 package indi.fimi.gdpj.shoppingcart.repository;
 
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetail;
+import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetailInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,7 +15,11 @@ public interface ShoppingCartMapper {
 
     ShoppingCartDetail getShoppingCartDetailById(@Param("id") Integer id);
 
+    ShoppingCartDetailInfo getShoppingCartDetailInfoById(@Param("id") Integer id);
+
     List<ShoppingCartDetail> getAllShoppingCartDetailListByUid(@Param("uid") Integer uid);
+
+    List<ShoppingCartDetailInfo> getAllShoppingCartDetailInfoListByUid(@Param("uid") Integer uid);
 
     void deleteShoppingCartDetailById(@Param("id")Integer id);
 

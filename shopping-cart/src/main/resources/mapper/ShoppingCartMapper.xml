@@ -10,6 +10,16 @@
         <result property="amount" column="amount"/>
     </resultMap>
 
+    <resultMap id="shopping-cart-detail-info-query" type="indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetailInfo">
+        <id property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="foodstuffId" column="foodstuff_id"/>
+        <result property="amount" column="amount"/>
+        <result property="uname" column="uname"/>
+        <result property="foodstuffName" column="foodstuff_name"/>
+    </resultMap>
+
+
     <insert id="addShoppingCartDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO shopping_cart_detail (`uid`,`foodstuff_id`,`amount`) VALUES (#{uid},#{foodstuffId},#{amount})
     </insert>
@@ -22,10 +32,18 @@
         SELECT * FROM shopping_cart_detail WHERE id=#{id}
     </select>
 
+    <select id="getShoppingCartDetailInfoById" resultMap="shopping-cart-detail-info-query">
+        SELECT scd.*,gu.uname,fs.name AS foodstuff_name FROM ((shopping_cart_detail scd LEFT JOIN gdpj_user gu ON scd.uid=gu.id) LEFT JOIN foodstuff fs ON scd.foodstuff_id=fs.id) WHERE scd.id=#{id}
+    </select>
+
     <select id="getAllShoppingCartDetailListByUid" resultMap="shopping-cart-detail-query">
         SELECT * FROM shopping_cart_detail WHERE uid=#{uid}
     </select>
-    
+
+    <select id="getAllShoppingCartDetailInfoListByUid" resultMap="shopping-cart-detail-info-query">
+        SELECT scd.*,gu.uname,fs.name AS foodstuff_name FROM ((shopping_cart_detail scd LEFT JOIN gdpj_user gu ON scd.uid=gu.id) LEFT JOIN foodstuff fs ON scd.foodstuff_id=fs.id) WHERE scd.uid=#{uid}
+    </select>
+
     <delete id="deleteShoppingCartDetailById">
         DELETE FROM shopping_cart_detail WHERE id=#{id}
     </delete>
@@ -33,5 +51,5 @@
     <delete id="deleteAllShoppingCartDetailsByUid">
         DELETE FROM shopping_cart_detail WHERE uid=#{uid}
     </delete>
-    
+
 </mapper>

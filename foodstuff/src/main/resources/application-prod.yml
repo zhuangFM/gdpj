@@ -28,7 +28,7 @@ logging:
 
 image:
   upload:
-    basePath: E:/graduation_project/gdpj-admin/static/images/
-    basePathForMac: /Users/zhuangfengming/graduation_project/gdpj-admin/static/images/
+    basePath: E:\graduation_project\gdpj-admin\static\images\&E:\graduation_project\gdpj-web\static\images\
+    basePathForMac: /Users/zhuangfengming/graduation_project/gdpj-admin/static/images/&/Users/zhuangfengming/graduation_project/gdpj-web/static/images/
 
 

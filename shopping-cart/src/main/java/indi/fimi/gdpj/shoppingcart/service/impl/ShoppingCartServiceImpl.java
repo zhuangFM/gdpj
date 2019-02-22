@@ -1,6 +1,8 @@
 package indi.fimi.gdpj.shoppingcart.service.impl;
 
+import com.google.common.collect.Maps;
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetail;
+import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetailInfo;
 import indi.fimi.gdpj.shoppingcart.repository.ShoppingCartMapper;
 import indi.fimi.gdpj.shoppingcart.rpc.BaseModuleApi;
 import indi.fimi.gdpj.shoppingcart.service.ShoppingCartService;
@@ -35,8 +37,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
+    public ShoppingCartDetailInfo getShoppingCartDetailInfoById(Integer id) {
+        return shoppingCartMapper.getShoppingCartDetailInfoById(id);
+    }
+
+    @Override
     public List<ShoppingCartDetail> getAllShoppingCartDetailListByUid(Integer uid) {
         return shoppingCartMapper.getAllShoppingCartDetailListByUid(uid);
+    }
+
+    @Override
+    public List<ShoppingCartDetailInfo> getAllShoppingCartDetailInfoListByUid(Integer uid) {
+        return shoppingCartMapper.getAllShoppingCartDetailInfoListByUid(uid);
     }
 
     @Override
@@ -52,5 +64,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public Map<String, Object> getUserInfoByUid(Integer id) {
         return baseModuleApi.getUserInfoByUid(id);
+    }
+
+    @Override
+    public Map<String, Object> feignBaseModuleAddSystemLog(String content, String level, String action) {
+        Map<String,String> logMap = Maps.newHashMap();
+        logMap.put("content",content);
+        logMap.put("action",action);
+        logMap.put("level",level);
+        return baseModuleApi.feignBaseModuleAddSystemLog(logMap);
     }
 }

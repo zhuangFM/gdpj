@@ -22,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -87,12 +88,30 @@ public class FoodstuffController {
     @RequestMapping(value = "/get_foodstuff_by_name")
     public Map<String, Object> getFoodstuffListByName(@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
                                                       @RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage,
-                                                      @RequestParam(name = "foodstuffName", defaultValue = "") String foodstuffName) {
+                                                      @RequestParam(name = "foodstuffName", defaultValue = "") String foodstuffName,
+                                                      @RequestParam(name = "orderBy",defaultValue = "inventory")String orderBy) {
         log.info("Access the api /get_foodstuff_by_name");
-        log.info("pageSize {} currentPage {} foodstuffName {}", pageSize, currentPage,foodstuffName);
+        log.info("pageSize {} currentPage {} foodstuffName {} orderBy {}", pageSize, currentPage, foodstuffName,orderBy);
         Map<String, Object> json = Maps.newHashMap();
         PageHelper.startPage(currentPage, pageSize);
+        PageHelper.orderBy(orderBy+" ASC");
         List<Foodstuff> foodstuffList = foodstuffService.getFoodstuffListByName(foodstuffName);
+        PageInfo<Foodstuff> foodstuffPage = new PageInfo<Foodstuff>(foodstuffList);
+        json.put("msg", "successfully!");
+        json.put("foodstuffList", foodstuffPage);
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/get_foodstuff_by_origin")
+    public Map<String, Object> getFoodstuffListByOrigin(@RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                      @RequestParam(name = "currentPage", defaultValue = "1") Integer currentPage,
+                                                      @RequestParam(name = "origin",defaultValue = "")String origin) {
+        log.info("Access the api /get_foodstuff_by_origin");
+        log.info("pageSize {} currentPage {} origin {}", pageSize, currentPage, origin);
+        Map<String, Object> json = Maps.newHashMap();
+        PageHelper.startPage(currentPage, pageSize);
+        List<Foodstuff> foodstuffList = foodstuffService.getFoodstuffListByOrigin(origin);
         PageInfo<Foodstuff> foodstuffPage = new PageInfo<Foodstuff>(foodstuffList);
         json.put("msg", "successfully!");
         json.put("foodstuffList", foodstuffPage);
@@ -102,6 +121,7 @@ public class FoodstuffController {
     @ResponseBody
     @RequestMapping(value = "/get_foodstuff_by_id")
     public Map<String, Object> getFoodstuffById(@RequestParam("id") Integer id) {
+        log.info("access api /get_foodstuff_by_id where id is {}",id);
         Map<String, Object> json = Maps.newHashMap();
         Foodstuff foodstuff = foodstuffService.getFoodstuffById(id);
         json.put("foodstuff", foodstuff);
@@ -131,42 +151,45 @@ public class FoodstuffController {
 
     @ResponseBody
     @RequestMapping(value = "/upload_foodstuff_images")
-    public Map<String, Object> uploadFoodstuffImages(HttpServletRequest request) throws IOException {
+    public Map<String, Object> uploadFoodstuffImages(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
         Integer id = Integer.valueOf(request.getParameter("id"));
         Foodstuff foodstuff = foodstuffService.getFoodstuffById(id);
         log.info("access api /upload_foodstuff_images where id is {}", id);
-        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(request.getSession().getServletContext());
-        //检查form中是否有enctype="multipart/form-data"
-        if (multipartResolver.isMultipart(request)) {
-            //将request变成多部分request
-            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
-            //获取multiRequest 中所有的文件名
-            Iterator iter = multiRequest.getFileNames();
-            String folderPath = this.basePath + id;
-            File folder = new File(folderPath);
-            if (!folder.exists()) {
-                folder.mkdir();
-            }
-            while (iter.hasNext()) {
-                //一次遍历所有文件
-                MultipartFile file = multiRequest.getFile(iter.next().toString());
-                if (file != null) {
-                    String path = folderPath + "/" + file.getOriginalFilename();
-                    log.info("the real upload path is {}", path);
-                    //上传
-                    file.transferTo(new File(path));
-                    //update foodstuff
-                    if (null == foodstuff.getImagePath() || "".equals(foodstuff.getImagePath())) {
-                        foodstuff.setImagePath(file.getOriginalFilename());
-                    } else {
-                        foodstuff.setImagePath(foodstuff.getImagePath() + "," + file.getOriginalFilename());
-                    }
-                    foodstuffService.modifyFoodstuffById(foodstuff);
-                    foodstuffService.feignBaseModuleAddSystemLog(String.format("upload foodstuff image where path = %s", path), "info", "upload");
-                    log.info("uploaded a image where path is {}", path);
-                }
-            }
+
+        String folderPath1 = this.basePath.split("&")[0] + id;
+        String folderPath2 = this.basePath.split("&")[1] + id;
+        File folder1 = new File(folderPath1);
+        File folder2 = new File(folderPath2);
+        if (!folder1.exists()) {
+            folder1.mkdir();
         }
+        if (!folder2.exists()) {
+            folder2.mkdir();
+        }
+
+        String path1 = folderPath1 + "/" + file.getOriginalFilename();
+        String path2 = folderPath2 + "/" + file.getOriginalFilename();
+
+        FileOutputStream out = new FileOutputStream(path1);
+        out.write(file.getBytes());
+        out.flush();
+        out.close();
+        out = new FileOutputStream(path2);
+        out.write(file.getBytes());
+        out.flush();
+        out.close();
+
+        //update foodstuff
+        if (null == foodstuff.getImagePath() || "".equals(foodstuff.getImagePath())) {
+            foodstuff.setImagePath(file.getOriginalFilename());
+        } else {
+            foodstuff.setImagePath(foodstuff.getImagePath() + "," + file.getOriginalFilename());
+        }
+        foodstuffService.modifyFoodstuffById(foodstuff);
+        foodstuffService.feignBaseModuleAddSystemLog(String.format("upload foodstuff image where path1 = %s", path1), "info", "upload");
+        foodstuffService.feignBaseModuleAddSystemLog(String.format("upload foodstuff image where path2 = %s", path2), "info", "upload");
+        log.info("uploaded a image where path1 is {} ||||path2 is {}", path1, path2);
+
         Map<String, Object> json = Maps.newHashMap();
         json.put("msg", "successfully! upload foodstuff where id = " + id);
         return json;

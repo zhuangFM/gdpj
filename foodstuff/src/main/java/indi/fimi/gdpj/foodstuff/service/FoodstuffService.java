@@ -12,6 +12,8 @@ public interface FoodstuffService {
 
     List<Foodstuff> getFoodstuffListByName(String name);
 
+    List<Foodstuff> getFoodstuffListByOrigin(String origin);
+
     Foodstuff getFoodstuffById(Integer id);
 
     String getFoodstuffImagePathById(Integer id);

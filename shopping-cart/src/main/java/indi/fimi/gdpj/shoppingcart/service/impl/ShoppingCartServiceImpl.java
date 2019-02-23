@@ -1,6 +1,8 @@
 package indi.fimi.gdpj.shoppingcart.service.impl;
 
 import com.google.common.collect.Maps;
+import indi.fimi.gdpj.common.utils.TimeGetter;
+import indi.fimi.gdpj.shoppingcart.domain.Address;
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetail;
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetailInfo;
 import indi.fimi.gdpj.shoppingcart.repository.ShoppingCartMapper;
@@ -68,10 +70,40 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public Map<String, Object> feignBaseModuleAddSystemLog(String content, String level, String action) {
-        Map<String,String> logMap = Maps.newHashMap();
-        logMap.put("content",content);
-        logMap.put("action",action);
-        logMap.put("level",level);
+        Map<String, String> logMap = Maps.newHashMap();
+        logMap.put("content", content);
+        logMap.put("action", action);
+        logMap.put("level", level);
         return baseModuleApi.feignBaseModuleAddSystemLog(logMap);
+    }
+
+    @Override
+    public void addAddress(Address address) {
+        address.setCreateTime(TimeGetter.getCurrentTimeStr());
+        address.setCreator("fimi.zhuang");
+        address.setModifyTime(TimeGetter.getCurrentTimeStr());
+        address.setModifier("fimi.zhuang");
+        shoppingCartMapper.addAddress(address);
+    }
+
+    @Override
+    public void modifyAddressById(Address address) {
+        address.setModifyTime(TimeGetter.getCurrentTimeStr());
+        shoppingCartMapper.modifyAddressById(address);
+    }
+
+    @Override
+    public Address getAddressById(Integer id) {
+        return shoppingCartMapper.getAddressById(id);
+    }
+
+    @Override
+    public List<Address> getAddressListByUid(Integer uid) {
+        return shoppingCartMapper.getAddressListByUid(uid);
+    }
+
+    @Override
+    public void deleteAddressById(Integer id) {
+        shoppingCartMapper.deleteAddressById(id);
     }
 }

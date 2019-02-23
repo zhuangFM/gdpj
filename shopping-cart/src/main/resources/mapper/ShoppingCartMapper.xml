@@ -17,7 +17,25 @@
         <result property="amount" column="amount"/>
         <result property="uname" column="uname"/>
         <result property="foodstuffName" column="foodstuff_name"/>
+        <result property="imagePath" column="image_path"/>
+        <result property="singlePrice" column="price"/>
     </resultMap>
+
+    <resultMap id="address-query" type="indi.fimi.gdpj.shoppingcart.domain.Address">
+        <id property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="consignee" column="consignee"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="postcode" column="postcode"/>
+        <result property="phone" column="phone"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creator" column="creator"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifier" column="modifier"/>
+    </resultMap>
+
+
 
 
     <insert id="addShoppingCartDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
@@ -33,7 +51,7 @@
     </select>
 
     <select id="getShoppingCartDetailInfoById" resultMap="shopping-cart-detail-info-query">
-        SELECT scd.*,gu.uname,fs.name AS foodstuff_name FROM ((shopping_cart_detail scd LEFT JOIN gdpj_user gu ON scd.uid=gu.id) LEFT JOIN foodstuff fs ON scd.foodstuff_id=fs.id) WHERE scd.id=#{id}
+        SELECT scd.*,gu.uname,fs.name AS foodstuff_name,fs.image_path,fs.price FROM ((shopping_cart_detail scd LEFT JOIN gdpj_user gu ON scd.uid=gu.id) LEFT JOIN foodstuff fs ON scd.foodstuff_id=fs.id) WHERE scd.id=#{id}
     </select>
 
     <select id="getAllShoppingCartDetailListByUid" resultMap="shopping-cart-detail-query">
@@ -41,7 +59,7 @@
     </select>
 
     <select id="getAllShoppingCartDetailInfoListByUid" resultMap="shopping-cart-detail-info-query">
-        SELECT scd.*,gu.uname,fs.name AS foodstuff_name FROM ((shopping_cart_detail scd LEFT JOIN gdpj_user gu ON scd.uid=gu.id) LEFT JOIN foodstuff fs ON scd.foodstuff_id=fs.id) WHERE scd.uid=#{uid}
+        SELECT scd.*,gu.uname,fs.name AS foodstuff_name,fs.image_path,fs.price FROM ((shopping_cart_detail scd LEFT JOIN gdpj_user gu ON scd.uid=gu.id) LEFT JOIN foodstuff fs ON scd.foodstuff_id=fs.id) WHERE scd.uid=#{uid}
     </select>
 
     <delete id="deleteShoppingCartDetailById">
@@ -50,6 +68,26 @@
 
     <delete id="deleteAllShoppingCartDetailsByUid">
         DELETE FROM shopping_cart_detail WHERE uid=#{uid}
+    </delete>
+
+    <insert id="addAddress" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO address (`consignee`,`province`,`city`,`postcode`,`create_time`,`creator`,`modify_time`,`modifier`,`phone`,`uid`) VALUES (#{consignee},#{province},#{city},#{postcode},#{createTime},#{creator},#{modifyTime},#{modifier},#{phone},#{uid})
+    </insert>
+
+    <update id="modifyAddressById">
+        UPDATE address SET `consignee`=#{consignee},`province`=#{province},`city`=#{city},`postcode`=#{postcode},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier},`phone`=#{phone},`uid`=#{uid} WHERE `id`=#{id}
+    </update>
+
+    <select id="getAddressById" resultMap="address-query">
+        SELECT * FROM address WHERE id=#{id}
+    </select>
+
+    <select id="getAddressListByUid" resultMap="address-query">
+        SELECT * FROM address WHERE uid=#{uid}
+    </select>
+
+    <delete id="deleteAddressById">
+        DELETE FROM address WHERE id=#{id}
     </delete>
 
 </mapper>

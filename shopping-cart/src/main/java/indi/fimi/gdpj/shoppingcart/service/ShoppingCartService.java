@@ -1,5 +1,6 @@
 package indi.fimi.gdpj.shoppingcart.service;
 
+import indi.fimi.gdpj.shoppingcart.domain.Address;
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetail;
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetailInfo;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate;
@@ -27,4 +28,14 @@ public interface ShoppingCartService {
     Map<String, Object> getUserInfoByUid(Integer id);
 
     Map<String, Object> feignBaseModuleAddSystemLog(String content, String level, String action);
+
+    void addAddress(Address address);
+
+    void modifyAddressById(Address address);
+
+    Address getAddressById(Integer id);
+
+    List<Address> getAddressListByUid(Integer uid);
+
+    void deleteAddressById(Integer id);
 }

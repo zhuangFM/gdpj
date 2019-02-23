@@ -1,6 +1,8 @@
 package indi.fimi.gdpj.shoppingcart.web;
 
 import com.google.common.collect.Maps;
+import com.sun.corba.se.spi.ior.ObjectKey;
+import indi.fimi.gdpj.shoppingcart.domain.Address;
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetail;
 import indi.fimi.gdpj.shoppingcart.domain.ShoppingCartDetailInfo;
 import indi.fimi.gdpj.shoppingcart.service.ShoppingCartService;
@@ -47,6 +49,7 @@ public class ShoppingCartController {
             shoppingCartService.feignBaseModuleAddSystemLog(String.format("update a shoppingCartDetail where uid id is %d", shoppingCartDetail.getId()), "info", "update");
             json.put("msg", "modify one record");
         }
+        json.put("result", shoppingCartService.getShoppingCartDetailInfoById(shoppingCartDetail.getId()));
         json.put("code", 1);
         return json;
     }
@@ -97,6 +100,60 @@ public class ShoppingCartController {
         shoppingCartService.deleteAllShoppingCartDetailsByUid(uid);
         Map<String, Object> json = Maps.newHashMap();
         json.put("msg", "empty user's shoppingCart where uid = " + uid);
+        json.put("code", 1);
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/save_address")
+    public Map<String, Object> saveAddress(@RequestBody Address address) {
+        log.info("access api /save_address where address is {}", address);
+        if (null == address.getId()) {
+            shoppingCartService.addAddress(address);
+            log.info("add a address");
+            shoppingCartService.feignBaseModuleAddSystemLog("add a address", "info", "add");
+        } else {
+            shoppingCartService.modifyAddressById(address);
+            log.info("update a address");
+            shoppingCartService.feignBaseModuleAddSystemLog("update a address", "info", "update");
+
+        }
+        Map<String, Object> json = Maps.newHashMap();
+        json.put("result", address);
+        json.put("code", 1);
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/get_address_by_id")
+    public Map<String, Object> getAddressById(@RequestParam("id") Integer id) {
+        log.info("access api /get_address_by_id where id is {}", id);
+        Address address = shoppingCartService.getAddressById(id);
+        Map<String, Object> json = Maps.newHashMap();
+        json.put("address", address);
+        json.put("code", 1);
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/get_address_list_by_uid")
+    public Map<String, Object> getAddressListByUid(@RequestParam("uid") Integer uid) {
+        log.info("access api /get_address_list_by_uid where uid is {}", uid);
+        List<Address> addressList = shoppingCartService.getAddressListByUid(uid);
+        Map<String, Object> json = Maps.newHashMap();
+        json.put("addressList", addressList);
+        json.put("code", 1);
+        return json;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/delete_address_by_id")
+    public Map<String, Object> deleteAddressById(@RequestParam("id") Integer id) {
+        log.info("access api /delete_address_by_id where id is {}", id);
+        shoppingCartService.deleteAddressById(id);
+        shoppingCartService.feignBaseModuleAddSystemLog(String.format("delete an address where id is %d",id),"info","delete");
+        Map<String, Object> json = Maps.newHashMap();
+        json.put("msg", String.format("delete an address where id is %d",id));
         json.put("code", 1);
         return json;
     }

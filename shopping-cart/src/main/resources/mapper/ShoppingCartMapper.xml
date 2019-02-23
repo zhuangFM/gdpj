@@ -33,10 +33,8 @@
         <result property="creator" column="creator"/>
         <result property="modifyTime" column="modify_time"/>
         <result property="modifier" column="modifier"/>
+        <result property="address" column="address"/>
     </resultMap>
-
-
-
 
     <insert id="addShoppingCartDetail" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO shopping_cart_detail (`uid`,`foodstuff_id`,`amount`) VALUES (#{uid},#{foodstuffId},#{amount})
@@ -71,11 +69,11 @@
     </delete>
 
     <insert id="addAddress" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO address (`consignee`,`province`,`city`,`postcode`,`create_time`,`creator`,`modify_time`,`modifier`,`phone`,`uid`) VALUES (#{consignee},#{province},#{city},#{postcode},#{createTime},#{creator},#{modifyTime},#{modifier},#{phone},#{uid})
+        INSERT INTO address (`consignee`,`province`,`city`,`postcode`,`create_time`,`creator`,`modify_time`,`modifier`,`phone`,`uid`,`address`) VALUES (#{consignee},#{province},#{city},#{postcode},#{createTime},#{creator},#{modifyTime},#{modifier},#{phone},#{uid},#{address})
     </insert>
 
     <update id="modifyAddressById">
-        UPDATE address SET `consignee`=#{consignee},`province`=#{province},`city`=#{city},`postcode`=#{postcode},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier},`phone`=#{phone},`uid`=#{uid} WHERE `id`=#{id}
+        UPDATE address SET `consignee`=#{consignee},`province`=#{province},`city`=#{city},`postcode`=#{postcode},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier},`phone`=#{phone},`uid`=#{uid},`address`=#{address} WHERE `id`=#{id}
     </update>
 
     <select id="getAddressById" resultMap="address-query">

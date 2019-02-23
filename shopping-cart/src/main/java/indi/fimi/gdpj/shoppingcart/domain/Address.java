@@ -12,6 +12,7 @@ public class Address {
     private String modifier;
     private String phone;
     private Integer uid;
+    private String address;
 
     public Integer getId() {
         return id;
@@ -101,6 +102,14 @@ public class Address {
         this.uid = uid;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -115,6 +124,7 @@ public class Address {
                 ", modifier='" + modifier + '\'' +
                 ", phone='" + phone + '\'' +
                 ", uid=" + uid +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

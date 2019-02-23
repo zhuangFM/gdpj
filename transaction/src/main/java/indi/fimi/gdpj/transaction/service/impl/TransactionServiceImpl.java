@@ -1,5 +1,6 @@
 package indi.fimi.gdpj.transaction.service.impl;
 
+import indi.fimi.gdpj.common.utils.TimeGetter;
 import indi.fimi.gdpj.transaction.domain.PaymentRecord;
 import indi.fimi.gdpj.transaction.domain.TransactionOrder;
 import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
@@ -24,11 +25,16 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void addTransactionOrder(TransactionOrder transactionOrder) {
+        transactionOrder.setCreateTime(TimeGetter.getCurrentTimeStr());
+        transactionOrder.setCreator("fimi.zhuang");
+        transactionOrder.setModifyTime(TimeGetter.getCurrentTimeStr());
+        transactionOrder.setModifier("fimi.zhuang");
         transactionMapper.addTransactionOrder(transactionOrder);
     }
 
     @Override
     public void modifyTransactionOrder(TransactionOrder transactionOrder) {
+        transactionOrder.setModifyTime(TimeGetter.getCurrentTimeStr());
         transactionMapper.modifyTransactionOrder(transactionOrder);
     }
 
@@ -104,6 +110,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void addPaymentRecord(PaymentRecord paymentRecord) {
+        paymentRecord.setCreateTime(TimeGetter.getCurrentTimeStr());
+        paymentRecord.setCreator("fimi.zhuang");
         transactionMapper.addPaymentRecord(paymentRecord);
     }
 

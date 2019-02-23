@@ -3,14 +3,10 @@ package indi.fimi.gdpj.transaction.web;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
-import indi.fimi.gdpj.transaction.domain.PaymentRecord;
-import indi.fimi.gdpj.transaction.domain.TransactionOrder;
-import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
-import indi.fimi.gdpj.transaction.domain.TransactionOrderDetailInfo;
+import indi.fimi.gdpj.transaction.domain.*;
 import indi.fimi.gdpj.transaction.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +37,7 @@ public class TransactionController {
             transactionService.modifyTransactionOrder(transactionOrder);
             json.put("msg", "modify one record successfully!");
         }
+        json.put("result", transactionOrder);
         json.put("code", 1);
         return json;
     }
@@ -83,16 +80,21 @@ public class TransactionController {
 
     @RequestMapping("/save_transaction_order_detail")
     @ResponseBody
-    public Map<String, Object> saveTransactionOrderDetail(@RequestBody TransactionOrderDetail transactionOrderDetail) {
+    public Map<String, Object> saveTransactionOrderDetail(@RequestBody List<TransactionOrderDetailTransfer> transactionOrderDetailTransferList) {
         Map<String, Object> json = Maps.newHashMap();
-        if (null == transactionOrderDetail.getId()) {
-            transactionService.addTransactionOrderDetail(transactionOrderDetail);
-            json.put("msg", "add one record successfully!");
-        } else {
-            transactionService.modifyTransactionOrderDetail(transactionOrderDetail);
-            json.put("msg", "modify one record successfully!");
+        List<Integer> shoppingCartDetailIdList = new ArrayList<Integer>();
+        for (TransactionOrderDetailTransfer item : transactionOrderDetailTransferList) {
+            if (null == item.getId()) {
+                transactionService.addTransactionOrderDetail(item);
+                shoppingCartDetailIdList.add(item.getShoppingCartDetailId());
+                json.put("msg", "add one record successfully!");
+            } else {
+                transactionService.modifyTransactionOrderDetail(item);
+                json.put("msg", "modify one record successfully!");
+            }
         }
         json.put("code", 1);
+        json.put("shoppingCartDetailIdList",shoppingCartDetailIdList );
         return json;
     }
 
@@ -148,7 +150,7 @@ public class TransactionController {
         log.info("Access the api /get_all_payment_record");
         log.info("pageSize {} currentPage {}", pageSize, currentPage);
         Map<String, Object> json = Maps.newHashMap();
-        PageHelper.startPage(currentPage,pageSize);
+        PageHelper.startPage(currentPage, pageSize);
         List<PaymentRecord> paymentRecordList = transactionService.getAllPaymentList();
         PageInfo<PaymentRecord> paymentRecordPage = new PageInfo<PaymentRecord>(paymentRecordList);
         json.put("paymentRecordList", paymentRecordPage);

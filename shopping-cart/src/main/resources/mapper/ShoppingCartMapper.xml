@@ -41,7 +41,13 @@
     </insert>
 
     <update id="modifyShoppingCartDetailById">
-        UPDATE shopping_cart_detail SET uid=#{uid},foodstuff_id=#{foodstuffId},amount=#{amount} WHERE id=#{id}
+        UPDATE shopping_cart_detail
+        <trim prefix="set" suffixOverrides=",">
+            <if test="null != uid">`uid`=#{uid},</if>
+            <if test="null != foodstuffId">`foodstuff_id`=#{foodstuffId},</if>
+            <if test="null != amount">`amount`=#{amount},</if>
+        </trim>
+        WHERE `id`=#{id}
     </update>
 
     <select id="getShoppingCartDetailById" resultMap="shopping-cart-detail-query">
@@ -73,7 +79,21 @@
     </insert>
 
     <update id="modifyAddressById">
-        UPDATE address SET `consignee`=#{consignee},`province`=#{province},`city`=#{city},`postcode`=#{postcode},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier},`phone`=#{phone},`uid`=#{uid},`address`=#{address} WHERE `id`=#{id}
+        UPDATE address
+        <trim prefix="set" suffixOverrides=",">
+            <if test="null != consignee">`consignee`=#{consignee},</if>
+            <if test="null != province">`province`=#{province},</if>
+            <if test="null != city">`city`=#{city},</if>
+            <if test="null != postcode">`postcode`=#{postcode},</if>
+            <if test="null != createTime">`create_time`=#{createTime},</if>
+            <if test="null != creator">`creator`=#{creator},</if>
+            <if test="null != modifyTime">`modify_time`=#{modifyTime},</if>
+            <if test="null != modifier">`modifier`=#{modifier},</if>
+            <if test="null != phone">`phone`=#{phone},</if>
+            <if test="null != uid">`uid`=#{uid},</if>
+            <if test="null != address">`address`=#{address},</if>
+        </trim>
+        WHERE `id`=#{id}
     </update>
 
     <select id="getAddressById" resultMap="address-query">

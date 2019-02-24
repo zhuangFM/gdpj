@@ -1,10 +1,7 @@
 package indi.fimi.gdpj.transaction.service.impl;
 
 import indi.fimi.gdpj.common.utils.TimeGetter;
-import indi.fimi.gdpj.transaction.domain.PaymentRecord;
-import indi.fimi.gdpj.transaction.domain.TransactionOrder;
-import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
-import indi.fimi.gdpj.transaction.domain.TransactionOrderDetailInfo;
+import indi.fimi.gdpj.transaction.domain.*;
 import indi.fimi.gdpj.transaction.repository.TransactionMapper;
 import indi.fimi.gdpj.transaction.rpc.FoodstuffModuleApi;
 import indi.fimi.gdpj.transaction.service.TransactionService;
@@ -44,13 +41,18 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionOrder> getTransactionOrdersByBuyerId(Integer buyerId) {
-        return transactionMapper.getTransactionOrdersByBuyerId(buyerId);
+    public List<TransactionOrder> getTransactionOrderListByBuyerId(Integer buyerId) {
+        return transactionMapper.getTransactionOrderListByBuyerId(buyerId);
     }
 
     @Override
     public List<TransactionOrder> getAllTransactionOrderList() {
         return transactionMapper.getAllTransactionOrderList();
+    }
+
+    @Override
+    public List<TransactionOrderInfo> getTransactionOrderInfoListByBuyerId(Integer buyerId) {
+        return transactionMapper.getTransactionOrderInfoListByBuyerId(buyerId);
     }
 
     @Override

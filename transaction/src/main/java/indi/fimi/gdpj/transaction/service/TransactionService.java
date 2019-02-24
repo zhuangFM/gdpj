@@ -1,9 +1,6 @@
 package indi.fimi.gdpj.transaction.service;
 
-import indi.fimi.gdpj.transaction.domain.PaymentRecord;
-import indi.fimi.gdpj.transaction.domain.TransactionOrder;
-import indi.fimi.gdpj.transaction.domain.TransactionOrderDetail;
-import indi.fimi.gdpj.transaction.domain.TransactionOrderDetailInfo;
+import indi.fimi.gdpj.transaction.domain.*;
 
 import java.util.List;
 import java.util.Map;
@@ -15,9 +12,11 @@ public interface TransactionService {
 
     TransactionOrder getTransactionOrderById(Integer id);
 
-    List<TransactionOrder> getTransactionOrdersByBuyerId(Integer buyerId);
+    List<TransactionOrder> getTransactionOrderListByBuyerId(Integer buyerId);
 
     List<TransactionOrder> getAllTransactionOrderList();
+
+    List<TransactionOrderInfo> getTransactionOrderInfoListByBuyerId(Integer buyerId);
 
     void deleteTransactionOrderById(Integer id);
 

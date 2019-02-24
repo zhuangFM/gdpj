@@ -1,5 +1,8 @@
 package indi.fimi.gdpj.transaction.domain;
 
+/**
+ * 用于controller中接收shoppingCartDetailId参数
+ */
 public class TransactionOrderDetailTransfer extends TransactionOrderDetail{
     private Integer shoppingCartDetailId;
 

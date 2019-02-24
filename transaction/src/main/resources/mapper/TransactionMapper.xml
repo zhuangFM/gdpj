@@ -12,6 +12,21 @@
         <result property="modifyTime" column="modify_time"/>
         <result property="modifier" column="modifier"/>
         <result property="status" column="status"/>
+        <result property="addressId" column="address_id"/>
+    </resultMap>
+
+    <resultMap id="transaction-order-info-query" type="indi.fimi.gdpj.transaction.domain.TransactionOrderInfo">
+        <id property="id" column="id"/>
+        <result property="totalMoney" column="total_money"/>
+        <result property="buyerId" column="buyer_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creator" column="creator"/>
+        <result property="modifyTime" column="modify_time"/>
+        <result property="modifier" column="modifier"/>
+        <result property="status" column="status"/>
+        <result property="addressId" column="address_id"/>
+        <result property="address" column="address"/>
+        <result property="consignee" column="consignee"/>
     </resultMap>
 
     <resultMap id="transaction-order-detail-query" type="indi.fimi.gdpj.transaction.domain.TransactionOrderDetail">
@@ -27,6 +42,7 @@
         <result property="foodstuffId" column="foodstuff_id"/>
         <result property="amount" column="amount"/>
         <result property="foodstuffName" column="foodstuff_name"/>
+        <result property="imagePath" column="image_path"/>
     </resultMap>
 
     <resultMap id="payment-record-query" type="indi.fimi.gdpj.transaction.domain.PaymentRecord">
@@ -37,23 +53,38 @@
     </resultMap>
 
     <insert id="addTransactionOrder" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
-        INSERT INTO transaction_order (`total_money`,`buyer_id`,`create_time`,`creator`,`modify_time`,`modifier`,`status`) VALUES (#{totalMoney},#{buyerId},#{createTime},#{creator},#{modifyTime},#{modifier},#{status})
+        INSERT INTO transaction_order (`total_money`,`buyer_id`,`create_time`,`creator`,`modify_time`,`modifier`,`status`,`address_id`) VALUES (#{totalMoney},#{buyerId},#{createTime},#{creator},#{modifyTime},#{modifier},#{status},#{addressId})
     </insert>
 
     <update id="modifyTransactionOrder">
-        UPDATE transaction_order SET total_money=#{totalMoney},buyer_id=#{buyerId},create_time=#{createTime},creator=#{creator},modify_time=#{modifyTime},modifier=#{modifier},status=#{status} WHERE id=#{id}
+        UPDATE transaction_order
+        <trim prefix="set" suffixOverrides=",">
+            <if test="null != totalMoney">`total_money`=#{totalMoney},</if>
+            <if test="null != buyerId">`buyer_id`=#{buyerId},</if>
+            <if test="null != createTime">`create_time`=#{createTime},</if>
+            <if test="null != creator">`creator`=#{creator},</if>
+            <if test="null != modifyTime">`modify_time`=#{modifyTime},</if>
+            <if test="null != modifier">`modifier`=#{modifier},</if>
+            <if test="null != status">`status`=#{status},</if>
+            <if test="null != addressId">`address_id`=#{addressId},</if>
+        </trim>
+        WHERE `id`=#{id}
     </update>
 
     <select id="getTransactionOrderById" resultMap="transaction-order-query">
         SELECT * FROM transaction_order WHERE id=#{id}
     </select>
 
-    <select id="getTransactionOrdersByBuyerId" resultMap="transaction-order-query">
+    <select id="getTransactionOrderListByBuyerId" resultMap="transaction-order-query">
         SELECT * FROM transaction_order WHERE buyer_id=#{buyerId}
     </select>
 
     <select id="getAllTransactionOrderList" resultMap="transaction-order-query">
         SELECT * FROM transaction_order
+    </select>
+
+    <select id="getTransactionOrderInfoListByBuyerId" resultMap="transaction-order-info-query">
+        SELECT tao.*,ad.address,ad.consignee FROM transaction_order tao LEFT JOIN address ad ON tao.address_id=ad.id
     </select>
 
     <delete id="deleteTransactionOrderById">
@@ -73,7 +104,7 @@
     </select>
 
     <select id="getTransactionOrderDetailInfoById" resultMap="transaction-order-detail-info-query">
-        SELECT tod.*,fs.name AS foodstuff_name FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id) WHERE tod.id=#{id}
+        SELECT tod.*,fs.name AS foodstuff_name,fs.image_path FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id) WHERE tod.id=#{id}
     </select>
     
     <select id="getAllTransactionOrderDetailList" resultMap="transaction-order-detail-query">
@@ -81,7 +112,7 @@
     </select>
 
     <select id="getAllTransactionOrderDetailInfoList" resultMap="transaction-order-detail-info-query">
-        SELECT tod.*,fs.name AS foodstuff_name FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id)
+        SELECT tod.*,fs.name AS foodstuff_name,fs.image_path FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id)
     </select>
 
     <select id="getTransactionOrderDetailsByTOId" resultMap="transaction-order-detail-query">
@@ -89,7 +120,7 @@
     </select>
 
     <select id="getTransactionOrderDetailsInfoByTOId" resultMap="transaction-order-detail-info-query">
-        SELECT tod.*,fs.name AS foodstuff_name FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id) WHERE tod.transaction_order_id=#{toid}
+        SELECT tod.*,fs.name AS foodstuff_name,fs.image_path FROM (transaction_order_detail tod LEFT JOIN `foodstuff` fs ON tod.foodstuff_id=fs.id) WHERE tod.transaction_order_id=#{toid}
     </select>
 
     <delete id="deleteTransactionOrderDetailById">

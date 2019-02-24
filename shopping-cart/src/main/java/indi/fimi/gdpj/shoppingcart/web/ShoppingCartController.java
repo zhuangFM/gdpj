@@ -118,7 +118,6 @@ public class ShoppingCartController {
             shoppingCartService.modifyAddressById(address);
             log.info("update a address");
             shoppingCartService.feignBaseModuleAddSystemLog("update a address", "info", "update");
-
         }
         Map<String, Object> json = Maps.newHashMap();
         json.put("result", address);

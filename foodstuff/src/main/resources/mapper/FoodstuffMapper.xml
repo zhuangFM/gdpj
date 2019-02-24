@@ -35,7 +35,23 @@
     </insert>
 
     <update id="modifyFoodstuffById">
-        UPDATE foodstuff SET `name`=#{name},`desc`=#{desc},`typeid`=#{typeid},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier},`origin`=#{origin},`price`=#{price},`unit`=#{unit},`is_discount`=#{isDiscount},`inventory`=#{inventory},`image_path`=#{imagePath} WHERE `id`=#{id}
+        UPDATE foodstuff
+        <trim prefix="set" suffixOverrides=",">
+            <if test="null != name">`name`=#{name},</if>
+            <if test="null != desc">`desc`=#{desc},</if>
+            <if test="null != typeid">`typeid`=#{typeid},</if>
+            <if test="null != createTime">`create_time`=#{createTime},</if>
+            <if test="null != creator">`creator`=#{creator},</if>
+            <if test="null != modifyTime">`modify_time`=#{modifyTime},</if>
+            <if test="null != modifier">`modifier`=#{modifier},</if>
+            <if test="null != origin">`origin`=#{origin},</if>
+            <if test="null != price">`price`=#{price},</if>
+            <if test="null != unit">`unit`=#{unit},</if>
+            <if test="null != isDiscount">`is_discount`=#{isDiscount},</if>
+            <if test="null != inventory">`inventory`=#{inventory},</if>
+            <if test="null != imagePath">`image_path`=#{imagePath},</if>
+        </trim>
+        WHERE `id`=#{id}
     </update>
 
     <select id="getAllFoodstuffList" resultMap="foodstuff-query">
@@ -67,7 +83,16 @@
     </insert>
 
     <update id="modifyFoodstuffKindById">
-        UPDATE foodstuff_kind SET `name`=#{name},`desc`=#{desc},`create_time`=#{createTime},`creator`=#{creator},`modify_time`=#{modifyTime},`modifier`=#{modifier} WHERE `id`=#{id}
+        UPDATE foodstuff_kind
+        <trim prefix="set" suffixOverrides=",">
+            <if test="null != name">`name`=#{name},</if>
+            <if test="null != desc">`desc`=#{desc},</if>
+            <if test="null != createTime">`create_time`=#{createTime},</if>
+            <if test="null != creator">`creator`=#{creator},</if>
+            <if test="null != modifyTime">`modify_time`=#{modifyTime},</if>
+            <if test="null != modifier">`modifier`=#{modifier},</if>
+        </trim>
+        WHERE `id`=#{id}
     </update>
 
     <select id="getAllFoodstuffKindList" resultMap="foodstuff-kind-query">

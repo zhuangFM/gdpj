@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,12 +58,29 @@ public class TransactionController {
         return json;
     }
 
-    @RequestMapping("/get_transaction_orders_by_buyer_id")
+    @RequestMapping("/get_transaction_order_list_by_buyer_id")
     @ResponseBody
-    public Map<String, Object> getTransactionOrdersByBuyerId(@RequestParam("buyerId") Integer buyerId) {
+    public Map<String, Object> getTransactionOrderListByBuyerId(@RequestParam("buyerId") Integer buyerId) {
+        log.info("access api /get_transaction_order_list_by_buyer_id where buyerId is {}",buyerId);
         Map<String, Object> json = Maps.newHashMap();
-        List<TransactionOrder> transactionOrderList = transactionService.getTransactionOrdersByBuyerId(buyerId);
+        List<TransactionOrder> transactionOrderList = transactionService.getTransactionOrderListByBuyerId(buyerId);
         json.put("transactionOrderList", transactionOrderList);
+        json.put("buyerId", buyerId);
+        json.put("code", 1);
+        return json;
+    }
+
+    @RequestMapping("/get_transaction_order_info_list_by_buyer_id")
+    @ResponseBody
+    public Map<String, Object> getTransactionOrderInfoListByBuyerId(@RequestParam("buyerId") Integer buyerId) {
+        log.info("access api /get_transaction_order_info_list_by_buyer_id where buyerId is {}",buyerId);
+        Map<String, Object> json = Maps.newHashMap();
+        List<TransactionOrderInfo> transactionOrderInfoList = transactionService.getTransactionOrderInfoListByBuyerId(buyerId);
+        for(TransactionOrderInfo item : transactionOrderInfoList){
+            List<TransactionOrderDetailInfo> detailList = transactionService.getTransactionOrderDetailsInfoByTOId(item.getId());
+            item.setDetailList(detailList);
+        }
+        json.put("transactionOrderInfoList", transactionOrderInfoList);
         json.put("buyerId", buyerId);
         json.put("code", 1);
         return json;

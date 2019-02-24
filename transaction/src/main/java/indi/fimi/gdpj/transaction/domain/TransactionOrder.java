@@ -11,6 +11,7 @@ public class TransactionOrder {
     private String modifyTime;
     private String modifier;
     private Integer status;
+    private Integer addressId;
 
     public Integer getId() {
         return id;
@@ -76,17 +77,26 @@ public class TransactionOrder {
         this.status = status;
     }
 
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
     @Override
     public String toString() {
         return "TransactionOrder{" +
                 "id=" + id +
-                ", totalMomey=" + totalMoney +
+                ", totalMoney=" + totalMoney +
                 ", buyerId=" + buyerId +
-                ", createTime=" + createTime +
+                ", createTime='" + createTime + '\'' +
                 ", creator='" + creator + '\'' +
-                ", modifyTime=" + modifyTime +
+                ", modifyTime='" + modifyTime + '\'' +
                 ", modifier='" + modifier + '\'' +
                 ", status=" + status +
+                ", addressId=" + addressId +
                 '}';
     }
 }

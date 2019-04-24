@@ -5,7 +5,7 @@ spring:
     foodstuff:
       type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://cdb-gby1wmoc.cd.tencentcdb.com:10026/gdpj?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      url: jdbc:mysql://aws-db.cwgnhujbnrwi.ap-northeast-1.rds.amazonaws.com:3306/gdpj?useUnicode=true&characterEncoding=UTF-8&useSSL=false
       username: root
       password: zfm123456
       initial-size: 2
